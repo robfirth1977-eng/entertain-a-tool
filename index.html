@@ -1,0 +1,1379 @@
+<<<<<<< HEAD
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>entertain-a-tool</title>
+    <script type="module" crossorigin src="/assets/index-Dfij9w-c.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-D8QD_iPX.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="X-Pak">
+<meta name="theme-color" content="#0c0e12">
+<title>X-Pak Field Sales</title>
+<script>
+const manifestData = {
+  name: "X-Pak Field Sales",short_name: "X-Pak",start_url: ".",display: "standalone",
+  background_color: "#0c0e12",theme_color: "#0c0e12",
+  icons: [{src:"data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%230c0e12'/><text x='50' y='68' font-size='60' text-anchor='middle' fill='%23f5a623' font-family='Arial Black'>X</text></svg>",sizes:"any",type:"image/svg+xml"}]
+};
+const blob = new Blob([JSON.stringify(manifestData)],{type:'application/json'});
+document.write('<link rel="manifest" href="'+URL.createObjectURL(blob)+'">');
+</script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0c0e12;--s1:#13161d;--s2:#1a1f2a;--s3:#222736;
+  --border:#2c3345;--border2:#3a4560;
+  --accent:#f5a623;--accent-dim:rgba(245,166,35,0.12);
+  --red:#e8441a;--red-dim:rgba(232,68,26,0.12);
+  --green:#2dd87a;--green-dim:rgba(45,216,122,0.1);
+  --blue:#4b9cf5;--blue-dim:rgba(75,156,245,0.1);
+  --yellow:#f5e642;--yellow-dim:rgba(245,230,66,0.1);
+  --text:#dde3f0;--muted:#6b7899;
+  --mono:'DM Mono',monospace;--display:'Barlow Condensed',sans-serif;--body:'Barlow',sans-serif;
+}
+html,body{height:100%;overflow:hidden}
+body{font-family:var(--body);background:var(--bg);color:var(--text)}
+#root{height:100%}
+.app{max-width:500px;margin:0 auto;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+
+/* HEADER */
+.hdr{background:var(--s1);border-bottom:1px solid var(--border);padding:env(safe-area-inset-top,0) 0 0;flex-shrink:0}
+.hdr-top{display:flex;justify-content:space-between;align-items:center;padding:12px 16px 8px}
+.logo{font-family:var(--display);font-weight:900;font-size:26px;letter-spacing:2px;color:var(--accent)}
+.logo em{font-style:normal;color:var(--text)}
+.hdr-chips{display:flex;gap:6px}
+.chip{font-family:var(--mono);font-size:10px;font-weight:500;padding:3px 8px;border-radius:4px;border:1px solid var(--border2);color:var(--muted);cursor:pointer;-webkit-tap-highlight-color:transparent}
+.chip.active{border-color:var(--accent);color:var(--accent)}
+.hdr-sub{font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;padding:0 16px 6px}
+.tabs{display:flex;overflow-x:auto;padding:0 16px;gap:0;border-top:1px solid var(--border);scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{font-family:var(--display);font-weight:700;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;padding:10px 14px;color:var(--muted);border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;-webkit-tap-highlight-color:transparent;transition:all 0.15s}
+.tab.on{color:var(--accent);border-bottom-color:var(--accent)}
+
+/* CONTENT */
+.content{flex:1;overflow-y:auto;padding:16px;-webkit-overflow-scrolling:touch;padding-bottom:max(80px,env(safe-area-inset-bottom,80px))}
+
+/* CARDS */
+.section-card{background:var(--s1);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:12px}
+.sec-label{font-family:var(--display);font-weight:900;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.field{margin-bottom:12px}
+.lbl{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:4px}
+.inp{width:100%;background:var(--s2);border:1px solid var(--border);border-radius:5px;padding:10px 12px;color:var(--text);font-family:var(--body);font-size:16px;outline:none;-webkit-appearance:none}
+.inp:focus{border-color:var(--accent)}
+.inp::placeholder{color:var(--muted)}
+select.inp{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7899' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:30px}
+textarea.inp{min-height:80px;resize:none;line-height:1.5;font-size:14px}
+
+/* TRIP HOME */
+.trip-home{display:flex;flex-direction:column;gap:12px}
+.trip-card{background:var(--s1);border:1px solid var(--border);border-radius:10px;padding:16px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all 0.15s}
+.trip-card:active{background:var(--s2)}
+.trip-card.active-trip{border-color:var(--accent)}
+.trip-card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
+.trip-name{font-family:var(--display);font-weight:900;font-size:18px;letter-spacing:1px}
+.trip-dates{font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:2px}
+.trip-stats-row{display:flex;gap:12px;margin-top:8px}
+.trip-stat{font-family:var(--display);font-weight:700}
+.trip-stat span{font-size:18px;color:var(--green)}
+.trip-stat label{font-size:9px;color:var(--muted);display:block;text-transform:uppercase;letter-spacing:1px}
+.trip-status-chip{font-family:var(--display);font-weight:700;font-size:10px;letter-spacing:1px;padding:3px 8px;border-radius:4px}
+.trip-status-chip.active{background:var(--accent-dim);border:1px solid var(--accent);color:var(--accent)}
+.trip-status-chip.archived{background:var(--s3);border:1px solid var(--border2);color:var(--muted)}
+.new-trip-btn{width:100%;padding:18px;background:transparent;border:2px dashed var(--border2);border-radius:10px;color:var(--muted);font-family:var(--display);font-weight:700;font-size:14px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all 0.15s}
+.new-trip-btn:active{border-color:var(--accent);color:var(--accent)}
+
+/* IMPORT */
+.import-step{background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:10px}
+.import-step-num{font-family:var(--display);font-weight:900;font-size:24px;color:var(--accent);margin-bottom:4px}
+.import-step-title{font-size:13px;font-weight:600;margin-bottom:6px}
+.import-step-desc{font-size:11px;color:var(--muted);line-height:1.5}
+.import-preview{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px;margin-top:8px;font-family:var(--mono);font-size:10px;color:var(--muted);line-height:1.6;max-height:120px;overflow-y:auto}
+.import-row-preview{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--border);font-size:11px}
+.import-row-preview:last-child{border-bottom:none}
+
+/* RUN SHEET */
+.trip-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
+.ts{background:var(--s2);border:1px solid var(--border);border-radius:7px;padding:10px 8px;text-align:center}
+.ts-val{font-family:var(--display);font-weight:900;font-size:22px;color:var(--accent)}
+.ts-val.green{color:var(--green)}
+.ts-lbl{font-size:8px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-top:2px}
+.day-header{display:flex;align-items:center;gap:10px;margin:14px 0 8px}
+.day-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+.day-title{font-family:var(--display);font-weight:900;font-size:20px;letter-spacing:1px}
+.day-sub{font-size:10px;color:var(--muted);margin-top:1px}
+.day-chips{display:flex;gap:6px;margin-top:4px;flex-wrap:wrap}
+.day-chip{font-family:var(--mono);font-size:9px;padding:2px 7px;border-radius:3px;border:1px solid var(--border);color:var(--muted)}
+.day-chip.green{border-color:var(--green);color:var(--green)}
+.day-chip.accent{border-color:var(--accent);color:var(--accent)}
+.day-filter{display:flex;gap:6px;margin-bottom:14px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px}
+.day-filter::-webkit-scrollbar{display:none}
+.df-btn{font-family:var(--display);font-weight:700;font-size:11px;letter-spacing:1px;padding:7px 12px;border:1px solid var(--border);background:var(--s2);color:var(--muted);border-radius:5px;cursor:pointer;white-space:nowrap;-webkit-tap-highlight-color:transparent}
+.df-btn.on{background:var(--accent);border-color:var(--accent);color:#000}
+
+/* VISIT CARDS */
+.visit-card{background:var(--s1);border:1px solid var(--border);border-left:3px solid var(--border);border-radius:8px;padding:12px;margin-bottom:8px;-webkit-tap-highlight-color:transparent;transition:all 0.15s}
+.visit-card.vc-planned{border-left-color:var(--border2)}
+.visit-card.vc-visited{border-left-color:var(--blue)}
+.visit-card.vc-follow{border-left-color:var(--accent)}
+.visit-card.vc-done{border-left-color:var(--green)}
+.visit-card.vc-missed{border-left-color:var(--red)}
+.visit-card.vc-tbc{border-left-color:var(--border);opacity:0.6}
+.vc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px}
+.vc-name{font-family:var(--display);font-weight:800;font-size:16px;letter-spacing:0.5px}
+.vc-name.tbc{color:var(--muted)}
+.vc-value{font-family:var(--display);font-weight:900;font-size:16px;color:var(--accent)}
+.vc-row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.vc-loc{font-size:11px;color:var(--muted)}
+.pill{font-family:var(--display);font-weight:700;font-size:10px;letter-spacing:0.5px;padding:2px 8px;border-radius:3px;border:1px solid var(--border)}
+.pill-planned{background:var(--s3);color:var(--muted)}
+.pill-visited{background:var(--blue-dim);border-color:var(--blue);color:var(--blue)}
+.pill-follow{background:var(--accent-dim);border-color:var(--accent);color:var(--accent)}
+.pill-done{background:var(--green-dim);border-color:var(--green);color:var(--green)}
+.pill-tbc{background:var(--s3);color:var(--muted)}
+.pill-missed{background:var(--red-dim);border-color:rgba(232,68,26,0.4);color:var(--red)}
+.pill-cat{background:var(--s3);color:var(--muted);font-size:9px}
+
+/* EXPANDED CARD */
+.card-expanded{border-top:1px solid var(--border);margin-top:10px;padding-top:10px}
+.exp-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.exp-field label{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:2px}
+.exp-field div{font-size:12px;color:var(--text)}
+.exp-prods{margin-bottom:10px}
+.exp-prod-row{font-size:11px;padding:4px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between}
+.exp-prod-row:last-child{border-bottom:none}
+.exp-actions{display:flex;gap:6px}
+
+/* LOG VISIT */
+.form-section{margin-bottom:16px}
+.form-section-title{font-family:var(--display);font-weight:900;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);padding:8px 0;border-bottom:1px solid var(--border);margin-bottom:10px}
+.inp-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.alert-inline{background:var(--red-dim);border:1px solid rgba(232,68,26,0.35);border-radius:5px;padding:6px 10px;font-size:11px;color:#f07060;margin-bottom:9px;display:flex;align-items:center;gap:5px}
+.tog-row{display:flex;gap:6px}
+.tog{flex:1;padding:11px 4px;border:1px solid var(--border);background:var(--s2);color:var(--muted);font-family:var(--display);font-weight:700;font-size:13px;border-radius:5px;cursor:pointer;transition:all 0.15s;-webkit-tap-highlight-color:transparent}
+.tog.t-y{background:var(--green-dim);border-color:var(--green);color:var(--green)}
+.tog.t-n{background:var(--red-dim);border-color:var(--red);color:var(--red)}
+.tog.t-h{background:var(--red-dim);border-color:var(--red);color:var(--red)}
+.tog.t-m{background:var(--accent-dim);border-color:var(--accent);color:var(--accent)}
+.tog.t-l{background:var(--green-dim);border-color:var(--green);color:var(--green)}
+.prod-block{background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:10px}
+.prod-block-title{font-family:var(--display);font-weight:800;font-size:12px;letter-spacing:1px;color:var(--accent);margin-bottom:10px}
+.sku-list{background:var(--bg);border:1px solid var(--border);border-radius:5px;margin-top:4px;max-height:180px;overflow-y:auto}
+.sku-item{padding:10px;cursor:pointer;display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1px solid var(--border);-webkit-tap-highlight-color:transparent}
+.sku-item:last-child{border-bottom:none}
+.sku-item:active{background:var(--accent-dim)}
+.sku-code{font-family:var(--mono);font-size:10px;color:var(--accent)}
+.sku-desc{font-size:11px;color:var(--text);margin-top:1px;line-height:1.3}
+.sku-price{font-family:var(--display);font-weight:700;font-size:14px;color:var(--green)}
+.sku-gp{font-size:9px;color:var(--muted)}
+.sku-selected{background:var(--s3);border:1px solid var(--green);border-radius:5px;padding:8px 10px;margin-top:4px;display:flex;justify-content:space-between;align-items:center}
+.sku-clear{background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px;padding:4px 8px;-webkit-tap-highlight-color:transparent}
+.live-calc{background:linear-gradient(135deg,rgba(45,216,122,0.08),rgba(75,156,245,0.06));border:1px solid rgba(45,216,122,0.25);border-radius:5px;padding:10px 12px;margin-top:8px}
+.lc-row{display:flex;justify-content:space-between;align-items:center}
+.lc-label{font-size:11px;color:var(--muted)}
+.lc-val{font-family:var(--display);font-weight:700;font-size:15px;color:var(--green)}
+.add-prod{width:100%;background:transparent;border:1px dashed var(--border2);border-radius:6px;padding:11px;color:var(--muted);font-family:var(--body);font-size:13px;font-weight:600;cursor:pointer;transition:all 0.15s;margin-bottom:12px;-webkit-tap-highlight-color:transparent}
+.btn{width:100%;padding:14px;border:none;border-radius:6px;font-family:var(--display);font-weight:800;font-size:14px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all 0.15s;margin-bottom:8px;-webkit-tap-highlight-color:transparent}
+.btn-accent{background:var(--accent);color:#000}
+.btn-fire{background:linear-gradient(135deg,#c73812,#f5a623);color:#fff}
+.btn-ghost{background:var(--s2);border:1px solid var(--border);color:var(--text)}
+.btn-green{background:var(--green);color:#000}
+.btn-red{background:var(--red-dim);border:1px solid var(--red);color:var(--red)}
+.search-box{width:100%;background:var(--s2);border:1px solid var(--border);border-radius:6px;padding:10px 12px;color:var(--text);font-family:var(--body);font-size:16px;outline:none;margin-bottom:12px;-webkit-appearance:none}
+.search-box:focus{border-color:var(--accent)}
+.search-box::placeholder{color:var(--muted)}
+
+/* OUTPUT */
+.out-hero{background:linear-gradient(135deg,var(--s2),var(--s1));border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:12px}
+.out-account{font-family:var(--display);font-weight:900;font-size:20px;letter-spacing:1px;margin-bottom:10px}
+.out-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.out-val{font-family:var(--display);font-weight:900;font-size:30px;line-height:1}
+.out-val.green{color:var(--green)}
+.out-val.accent{color:var(--accent)}
+.out-lbl{font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-top:2px}
+.rank-chip{display:inline-flex;align-items:center;gap:5px;font-family:var(--display);font-weight:900;font-size:15px;padding:5px 11px;border-radius:5px;margin-top:10px}
+.rank-A{background:var(--green-dim);border:1px solid var(--green);color:var(--green)}
+.rank-B{background:var(--accent-dim);border:1px solid var(--accent);color:var(--accent)}
+.rank-C{background:var(--s3);border:1px solid var(--border2);color:var(--muted)}
+.out-block{background:var(--s2);border:1px solid var(--border);border-radius:7px;padding:13px;margin-bottom:9px}
+.out-block pre{font-family:var(--mono);font-size:10px;color:var(--muted);white-space:pre-wrap;line-height:1.7}
+.prod-out-row{display:flex;justify-content:space-between;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--border)}
+.prod-out-row:last-child{border-bottom:none}
+.por-name{font-size:13px;font-weight:600}
+.por-sku{font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:2px}
+.por-pain{font-size:11px;color:var(--accent);margin-top:3px}
+.por-price{font-family:var(--display);font-weight:700;font-size:16px;color:var(--green)}
+.por-ann{font-size:10px;color:var(--muted)}
+.copy-ok{color:var(--green);font-size:11px;font-weight:600;text-align:center;margin-top:3px;margin-bottom:6px}
+
+/* CATALOGUE */
+.cat-section{margin-bottom:18px}
+.cat-section-title{font-family:var(--display);font-weight:900;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);padding:6px 0;border-bottom:1px solid var(--border);margin-bottom:8px}
+.cat-row{display:flex;justify-content:space-between;align-items:flex-start;padding:9px 4px;border-bottom:1px solid var(--border);cursor:pointer;-webkit-tap-highlight-color:transparent}
+.cat-row:active{background:var(--s2)}
+.cat-row:last-child{border-bottom:none}
+.cat-sku{font-family:var(--mono);font-size:10px;color:var(--accent);min-width:80px}
+.cat-name{font-size:12px;color:var(--text);flex:1;padding:0 8px;line-height:1.3}
+.cat-price{font-family:var(--display);font-weight:700;font-size:14px;color:var(--green);white-space:nowrap;text-align:right}
+.cat-unit{font-size:9px;color:var(--muted)}
+
+/* NOTES */
+.note-card{background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:12px}
+.note-card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.note-account-name{font-family:var(--display);font-weight:800;font-size:15px;letter-spacing:1px}
+.note-time{font-family:var(--mono);font-size:9px;color:var(--muted)}
+.note-raw{font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:10px;font-style:italic;border-left:2px solid var(--border2);padding-left:10px}
+.note-summary{font-size:13px;color:var(--text);line-height:1.6}
+.note-summary-label{font-family:var(--display);font-weight:800;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:6px}
+.record-btn{width:100%;padding:18px;border:none;border-radius:10px;font-family:var(--display);font-weight:800;font-size:16px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:10px;-webkit-tap-highlight-color:transparent;transition:all 0.15s}
+.record-btn.idle{background:var(--s2);border:2px dashed var(--border2);color:var(--muted)}
+.record-btn.recording{background:var(--red-dim);border:2px solid var(--red);color:var(--red);animation:pulse 1.2s infinite}
+.record-btn.transcribing{background:var(--blue-dim);border:2px solid var(--blue);color:var(--blue);animation:pulse 1.2s infinite}
+.record-btn.processing{background:var(--accent-dim);border:2px solid var(--accent);color:var(--accent);animation:pulse 1.2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.6}}
+.del-note{background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px;padding:2px 6px;-webkit-tap-highlight-color:transparent}
+.del-note:active{color:var(--red)}
+.empty-notes{text-align:center;padding:40px 20px;color:var(--muted);font-size:13px;line-height:1.6}
+.empty-notes .big{font-size:36px;margin-bottom:10px}
+
+/* SAVE BANNER */
+.save-banner{background:var(--green-dim);border:1px solid var(--green);border-radius:5px;padding:6px 12px;font-size:11px;color:var(--green);text-align:center;margin-bottom:12px;font-weight:600}
+.fab{position:fixed;bottom:max(20px,env(safe-area-inset-bottom,20px));right:16px;width:54px;height:54px;background:var(--accent);border:none;border-radius:50%;font-size:24px;cursor:pointer;box-shadow:0 4px 20px rgba(245,166,35,0.4);display:flex;align-items:center;justify-content:center;z-index:200;-webkit-tap-highlight-color:transparent}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:300;display:flex;align-items:flex-end}
+.modal{background:var(--s1);border-radius:16px 16px 0 0;padding:20px;padding-bottom:max(20px,env(safe-area-inset-bottom,20px));width:100%;max-height:85vh;overflow-y:auto}
+.modal-title{font-family:var(--display);font-weight:900;font-size:18px;letter-spacing:1px;margin-bottom:4px}
+.modal-sub{font-size:12px;color:var(--muted);margin-bottom:16px}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+<script type="text/babel">
+const {useState, useEffect, useRef} = React;
+
+// ─── PRICELIST ────────────────────────────────────────────────────────────────
+const PRICELIST = [
+  {sku:"10.005",desc:"X-Pak Woven Dunnage Bag 90x120cm (40/ctn)",cat:"Dunnage Bags",unit:"Each",price:10.57,cost:3.95,gp:60},
+  {sku:"10.005P",desc:"X-Pak Woven Dunnage Bag 90x120cm Level 0 (800/Pallet)",cat:"Dunnage Bags",unit:"Each",price:9.63,cost:3.15,gp:65},
+  {sku:"10.005P-1",desc:"X-Pak Woven Dunnage Bag 90x120cm Level 1 (725/Pallet)",cat:"Dunnage Bags",unit:"Each",price:11.65,cost:3.81,gp:65},
+  {sku:"10.010",desc:"X-Pak Woven Dunnage Bag 90x180cm (20/ctn)",cat:"Dunnage Bags",unit:"Each",price:14.22,cost:4.65,gp:65},
+  {sku:"10.010P",desc:"X-Pak Woven Dunnage Bag 90x180cm Level 0 (675/Pallet)",cat:"Dunnage Bags",unit:"Each",price:10.3,cost:3.85,gp:60},
+  {sku:"10.010P-1",desc:"X-Pak Woven Dunnage Bag 90x180cm Level 1 (500/pallet)",cat:"Dunnage Bags",unit:"Each",price:11.3,cost:5.28,gp:50},
+  {sku:"10.015",desc:"X-Pak Woven Dunnage Bag 90x210cm Level 1 (20/ctn)",cat:"Dunnage Bags",unit:"Each",price:13.72,cost:5.77,gp:55},
+  {sku:"10.015P-1",desc:"X-Pak Woven Dunnage Bag 90x210cm Level 1 (500/pallet)",cat:"Dunnage Bags",unit:"Each",price:11.06,cost:5.17,gp:50},
+  {sku:"10.020",desc:"X-Pak Woven Dunnage Bag 120x210cm (20/ctn)",cat:"Dunnage Bags",unit:"Each",price:16.67,cost:7.01,gp:55},
+  {sku:"10.020P",desc:"X-Pak Woven Dunnage Bag 120x210cm Level 0 (520/pallet)",cat:"Dunnage Bags",unit:"Each",price:12.22,cost:5.71,gp:50},
+  {sku:"10.020P-1",desc:"X-Pak Woven Dunnage Bag 120x210cm Level 1 (400/pallet)",cat:"Dunnage Bags",unit:"Each",price:12.6,cost:7.07,gp:40},
+  {sku:"10.020P-2",desc:"X-Pak Woven Dunnage Bag 120x210cm Level 2 (195/pallet)",cat:"Dunnage Bags",unit:"Each",price:28.63,cost:13.38,gp:50},
+  {sku:"10.025P-1",desc:"X-Pak Woven Dunnage Bag 120x240cm Level 1 (350/pallet)",cat:"Dunnage Bags",unit:"Each",price:14.2,cost:7.3,gp:45},
+  {sku:"10.025P-2",desc:"X-Pak Woven Dunnage Bag 120x240cm Level 2 (190/pallet)",cat:"Dunnage Bags",unit:"Each",price:35.78,cost:15.05,gp:55},
+  {sku:"10.040",desc:"X-Pak Woven Dunnage Bag 130x120cm Level 1 (500/Pallet)",cat:"Dunnage Bags",unit:"Each",price:11.65,cost:4.9,gp:55},
+  {sku:"10.050",desc:"X-Pak Woven Dunnage Bag 150x240cm Level 1 (300/Pallet)",cat:"Dunnage Bags",unit:"Each",price:21.19,cost:9.9,gp:50},
+  {sku:"10.210",desc:"Container Door Tarp w/ restraint lashing 2250x2250cm (15/ctn)",cat:"Dunnage Bags",unit:"Each",price:36.81,cost:17.2,gp:50},
+  {sku:"10.220",desc:"Inflatable Container Door Tarp w/ restraint lashing 2000x2300cm",cat:"Dunnage Bags",unit:"Each",price:91.84,cost:51.5,gp:40},
+  {sku:"10.300",desc:"Inflate-X Pro Unit 2x Batteries 1x Charger",cat:"Dunnage Bags",unit:"Each",price:866.7,cost:405.0,gp:50},
+  {sku:"10.301",desc:"Inflate-X Pro Single Battery",cat:"Dunnage Bags",unit:"Each",price:304.35,cost:128.0,gp:55},
+  {sku:"10.302",desc:"Inflate-X Pro Single Charger",cat:"Dunnage Bags",unit:"Each",price:93.62,cost:35.0,gp:60},
+  {sku:"10.303G",desc:"Snap on Quick Connect Adaptor Green",cat:"Dunnage Bags",unit:"Each",price:149.8,cost:70.0,gp:50},
+  {sku:"10.303M",desc:"Snap on Quick Connect Adaptor Metal",cat:"Dunnage Bags",unit:"Each",price:214.0,cost:100.0,gp:50},
+  {sku:"10.306",desc:"Replacement 46cm Hose for Inflate-X Pro",cat:"Dunnage Bags",unit:"Each",price:124.12,cost:58.0,gp:50},
+  {sku:"10.310",desc:"Premium Plastic Inflator w/ Gauge",cat:"Dunnage Bags",unit:"Each",price:278.2,cost:130.0,gp:50},
+  {sku:"03.051",desc:"X-Pak Strapping 16mm x 750m (2 rolls/ctn)",cat:"Woven/PET Strapping",unit:"Roll",price:129.49,cost:54.46,gp:55},
+  {sku:"03.052",desc:"X-Pak Strapping 19mm x 500m (2 rolls/ctn)",cat:"Woven/PET Strapping",unit:"Roll",price:95.11,cost:40.0,gp:55},
+  {sku:"03.053",desc:"X-Pak Strapping 25mm x 500m (2 rolls/ctn)",cat:"Woven/PET Strapping",unit:"Roll",price:130.78,cost:55.0,gp:55},
+  {sku:"03.054",desc:"X-Pak Strapping 32mm x 300m (2 rolls/ctn)",cat:"Woven/PET Strapping",unit:"Roll",price:145.05,cost:61.0,gp:55},
+  {sku:"03.055",desc:"X-Pak Strapping 19mm x 650m (2 rolls/ctn)",cat:"Woven/PET Strapping",unit:"Roll",price:111.75,cost:47.0,gp:55},
+  {sku:"03.056",desc:"X-Pak Strapping Buckle Galv 16mm (1000/ctn)",cat:"Woven/PET Strapping",unit:"Ctn",price:117.7,cost:49.5,gp:55},
+  {sku:"03.057",desc:"X-Pak Strapping Buckle Galv 19mm (1000/ctn)",cat:"Woven/PET Strapping",unit:"Ctn",price:90.35,cost:38.0,gp:55},
+  {sku:"03.058",desc:"X-Pak Strapping Buckle Galv 25mm (500/ctn)",cat:"Woven/PET Strapping",unit:"Ctn",price:120.62,cost:62.0,gp:45},
+  {sku:"03.059",desc:"X-Pak Strapping Buckle Galv 32mm (250/ctn)",cat:"Woven/PET Strapping",unit:"Ctn",price:155.58,cost:72.7,gp:50},
+  {sku:"03.060",desc:"X-Pak Standard Tensioner Up to 19mm",cat:"Woven/PET Strapping",unit:"Each",price:141.24,cost:52.8,gp:60},
+  {sku:"03.061",desc:"X-Pak Tensioner Round Packs up to 25mm German made",cat:"Woven/PET Strapping",unit:"Each",price:816.5,cost:496.0,gp:35},
+  {sku:"03.061H",desc:"X-Pak Tensioner Round Packs up to 32mm German made",cat:"Woven/PET Strapping",unit:"Each",price:1749.86,cost:1063.0,gp:35},
+  {sku:"03.062",desc:"X-Pak H/Duty USA Tensioner Up to 19mm",cat:"Woven/PET Strapping",unit:"Each",price:521.24,cost:341.0,gp:30},
+  {sku:"03.063H",desc:"X-Pak Heavy Duty Lashing Ratchet Tensioner up to 50mm",cat:"Woven/PET Strapping",unit:"Each",price:1076.11,cost:704.0,gp:30},
+  {sku:"03.064",desc:"X-Pak Strapping/Lashing Tensioner Ex H/D EU Made Up to 40mm",cat:"Woven/PET Strapping",unit:"Each",price:1037.08,cost:630.0,gp:35},
+  {sku:"03.065",desc:"X-Pak Strapping Dispenser Cart",cat:"Woven/PET Strapping",unit:"Each",price:411.54,cost:250.0,gp:35},
+  {sku:"03.065st",desc:"X-Pak Stationary Dispenser",cat:"Woven/PET Strapping",unit:"Each",price:151.59,cost:85.0,gp:40},
+  {sku:"03.067",desc:"X-Pak Strapping Tensioner Up to 25mm",cat:"Woven/PET Strapping",unit:"Each",price:297.46,cost:152.9,gp:45},
+  {sku:"03.068",desc:"Milwaukee Battery Lashing Tensioner 2 batteries 1x Charger",cat:"Woven/PET Strapping",unit:"Each",price:5885.0,cost:3300.0,gp:40},
+  {sku:"03.068Z",desc:"Zapak CT32 Battery Strapping Tensioner up to 32mm",cat:"Woven/PET Strapping",unit:"Each",price:4859.59,cost:2725.0,gp:40},
+  {sku:"03.101",desc:"H/Duty Dispenser Cart Suits Rope Steel PET",cat:"Woven/PET Strapping",unit:"Each",price:411.54,cost:250.0,gp:35},
+  {sku:"03.009-19",desc:"KRONOS PET Battery Strapping Tool Charger 1 Battery 19mm",cat:"Woven/PET Strapping",unit:"Each",price:3974.29,cost:2600.0,gp:30},
+  {sku:"03.009B",desc:"Spare battery to suit Kronos Battery tool",cat:"Woven/PET Strapping",unit:"Each",price:275.14,cost:180.0,gp:30},
+  {sku:"03.111",desc:"PET Strapping 16mm x 0.9mm x 1200m Green Embossed",cat:"Woven/PET Strapping",unit:"Roll",price:77.19,cost:50.5,gp:30},
+  {sku:"03.112",desc:"PET Strapping 19mm x 1.0mm x 1000m Green Embossed",cat:"Woven/PET Strapping",unit:"Roll",price:84.07,cost:55.0,gp:30},
+  {sku:"02.046",desc:"X-Pak Cast Machine Wrap 500mm x 1600m x 20um Clear",cat:"Machine Wrap",unit:"Roll",price:67.73,cost:44.31,gp:30},
+  {sku:"02.047",desc:"X-Pak Cast Machine Wrap 500mm x 1400m x 23um Clear",cat:"Machine Wrap",unit:"Roll",price:68.15,cost:44.58,gp:30},
+  {sku:"02.048",desc:"X-Pak Cast Machine Wrap 500mm x 1300m x 25um Clear",cat:"Machine Wrap",unit:"Roll",price:68.79,cost:45.0,gp:30},
+  {sku:"02.049",desc:"X-Pak Cast Machine Wrap 500mm x 1250m x 25um Black",cat:"Machine Wrap",unit:"Roll",price:78.72,cost:51.5,gp:30},
+  {sku:"02.050",desc:"X-Pak Cast Machine Wrap 500mm x 900m x 35um Clear",cat:"Machine Wrap",unit:"Roll",price:66.69,cost:43.63,gp:30},
+  {sku:"02.001",desc:"X-Pak Cast Hand Wrap 500mm x 450m x 17um Clear",cat:"Hand Wrap",unit:"Roll",price:15.59,cost:10.2,gp:30},
+  {sku:"02.002",desc:"X-Pak Cast Hand Wrap 500mm x 450m x 20um Clear",cat:"Hand Wrap",unit:"Roll",price:17.58,cost:11.5,gp:30},
+  {sku:"02.003",desc:"X-Pak Cast Hand Wrap 500mm x 400m x 23um Clear",cat:"Hand Wrap",unit:"Roll",price:17.97,cost:11.75,gp:30},
+  {sku:"02.004",desc:"X-Pak Cast Hand Wrap 500mm x 360m x 25um Clear",cat:"Hand Wrap",unit:"Roll",price:17.76,cost:11.62,gp:30},
+  {sku:"02.005",desc:"X-Pak Cast Hand Wrap 500mm x 400m x 23um Black",cat:"Hand Wrap",unit:"Roll",price:22.93,cost:15.0,gp:30},
+  {sku:"02.006",desc:"X-Pak Cast Hand Wrap 500mm x 300m x 30um Clear",cat:"Hand Wrap",unit:"Roll",price:17.58,cost:11.5,gp:30},
+  {sku:"02.007",desc:"X-Pak Cast Hand Wrap 500mm x 400m x 25um White",cat:"Hand Wrap",unit:"Roll",price:71.29,cost:39.98,gp:40},
+  {sku:"02.035",desc:"X-Pak Premium Bundling Wrap 100mm x 250m Clear",cat:"Hand Wrap",unit:"Roll",price:2.75,cost:1.8,gp:30},
+  {sku:"02.060",desc:"Pallet Top Sheets 1680x1680mm 250/roll CLEAR",cat:"Pallet Films",unit:"Roll",price:59.39,cost:38.85,gp:30},
+  {sku:"02.061",desc:"Pallet Top Sheets 1680x1680mm 250/roll BLACK",cat:"Pallet Films",unit:"Roll",price:96.3,cost:63.0,gp:30},
+  {sku:"02.070",desc:"Pallet Bag 1220+1220 x 1850mm x 100um 30/roll CLEAR",cat:"Pallet Films",unit:"Roll",price:117.7,cost:77.0,gp:30},
+  {sku:"02.073",desc:"Pallet Bag 1220+1220 x 1000mm x 45um 100/roll CLEAR",cat:"Pallet Films",unit:"Roll",price:145.21,cost:95.0,gp:30},
+  {sku:"02.074",desc:"Heat Shrink Tubing 1220+1220 x 100um x 30Kg CLEAR",cat:"Pallet Films",unit:"Roll",price:148.63,cost:97.24,gp:30},
+  {sku:"02.075",desc:"Heat Shrink Tubing 1220+1220 x 150um x 30Kg CLEAR",cat:"Pallet Films",unit:"Roll",price:148.63,cost:97.24,gp:30},
+  {sku:"02.080",desc:"Cardboard Pallet Pads 1160x1160x4mm thick",cat:"Pallet Films",unit:"Each",price:1.99,cost:1.3,gp:30},
+  {sku:"02.081",desc:"Kraft Heavy Liner Sheets 1165x1165x190GSM 2000/Pallet",cat:"Pallet Films",unit:"1000",price:657.29,cost:430.0,gp:30},
+  {sku:"02.0847",desc:"Plastic Slip Sheet 1250x1100x0.7mm",cat:"Pallet Films",unit:"Each",price:3.83,cost:2.15,gp:40},
+  {sku:"03.150",desc:"Cargo-Lash 32mm x 250m",cat:"Lashing",unit:"Roll",price:141.24,cost:66.0,gp:50},
+  {sku:"03.155",desc:"Cargo-Lash 40mm x 200m",cat:"Lashing",unit:"Roll",price:188.75,cost:88.2,gp:50},
+  {sku:"03.180",desc:"Forged Ladder Buckle 32mm (50/Ctn)",cat:"Lashing",unit:"Each",price:3.62,cost:1.25,gp:63},
+  {sku:"03.190",desc:"Forged Ladder Buckle 40mm (30/Ctn)",cat:"Lashing",unit:"Each",price:4.33,cost:1.5,gp:63},
+  {sku:"03.134",desc:"Plastic Corner Protectors 45x25x25mm (1000/Ctn)",cat:"Corner Protection",unit:"Ctn",price:117.43,cost:65.85,gp:40},
+  {sku:"03.135",desc:"Cardboard Corner Protectors 50x50x50x4mm (1000/Ctn)",cat:"Corner Protection",unit:"Ctn",price:45.66,cost:25.6,gp:40},
+  {sku:"03.136",desc:"Plastic Corner Protectors 60x30x30mm (1000/Ctn)",cat:"Corner Protection",unit:"Ctn",price:84.08,cost:47.15,gp:40},
+  {sku:"03.138",desc:"Cardboard Corner Protectors 60x60x150x4mm",cat:"Corner Protection",unit:"Each",price:0.43,cost:0.2,gp:50},
+  {sku:"03.139",desc:"Cardboard Corner Protectors 50x50x5x100mm",cat:"Corner Protection",unit:"Each",price:0.39,cost:0.18,gp:50},
+  {sku:"12.250",desc:"Pak-Dry Desiccant 500g with Hanger (30/ctn)",cat:"Desiccants",unit:"Each",price:4.34,cost:2.03,gp:50},
+  {sku:"12.260",desc:"Pak-Dry Desiccant 1kg with Hanger (15/ctn)",cat:"Desiccants",unit:"Each",price:8.69,cost:4.06,gp:50},
+  {sku:"12.302",desc:"Pak-Dry Express Desiccant 125g (96/ctn)",cat:"Desiccants",unit:"Each",price:2.95,cost:1.38,gp:50},
+  {sku:"12.800",desc:"Hanger Tool for Pak-Dry Desiccant",cat:"Desiccants",unit:"Each",price:40.12,cost:15.0,gp:60},
+  {sku:"03.205",desc:"Magnet with Loop 41kg Adhesive Force",cat:"Truck Restraint",unit:"Each",price:40.12,cost:15.0,gp:60},
+  {sku:"03.206",desc:"Red Lash Installation Tool",cat:"Truck Restraint",unit:"Each",price:254.13,cost:95.0,gp:60},
+  {sku:"03.212",desc:"Load-Lash Essential w/ 2x horizontal straps 1 set",cat:"Truck Restraint",unit:"Set",price:64.2,cost:24.0,gp:60},
+  {sku:"03.222",desc:"Load-Lash Pro w/ 2x horizontal straps",cat:"Truck Restraint",unit:"Set",price:84.16,cost:31.46,gp:60},
+  {sku:"03.224",desc:"Load-Lash Pro w/ 4x horizontal straps",cat:"Truck Restraint",unit:"Set",price:100.05,cost:37.4,gp:60},
+  {sku:"03.280",desc:"Anti-Slip Matting 150x800x4mm",cat:"Truck Restraint",unit:"Each",price:5.7,cost:3.2,gp:40},
+  {sku:"03.290",desc:"Edge Protection Quarter Shell 1000mm x 200mm x 15mm HD",cat:"Truck Restraint",unit:"Each",price:21.31,cost:11.95,gp:40},
+  {sku:"03.295",desc:"Edge Protection Corner 1200x150x150x9mm w 4 cutouts",cat:"Truck Restraint",unit:"Each",price:19.17,cost:10.75,gp:40},
+  {sku:"13.100",desc:"X-Pak RatStrap Pro",cat:"Truck Restraint",unit:"Each",price:899.77,cost:555.0,gp:34},
+  {sku:"13.210",desc:"X-Pak ProPole Mounting Brackets",cat:"Truck Restraint",unit:"Each",price:171.2,cost:88.0,gp:45},
+  {sku:"13.310",desc:"X-Pak ProPole Standard 1.2m-2.4m",cat:"Truck Restraint",unit:"Each",price:138.17,cost:29.7,gp:77},
+  {sku:"13.320",desc:"X-Pak ProPole Extra Long 1.8m-3.6m",cat:"Truck Restraint",unit:"Each",price:189.84,cost:55.0,gp:69},
+  {sku:"13.400",desc:"X-Pak ProHook Strap Positioning Tool",cat:"Truck Restraint",unit:"Each",price:83.22,cost:42.78,gp:45},
+  {sku:"13.401",desc:"X-Pak ProSwivel",cat:"Truck Restraint",unit:"Each",price:74.24,cost:38.16,gp:45},
+  {sku:"13.402",desc:"X-Pak ProMulti Edge Protection Positioning Tool",cat:"Truck Restraint",unit:"Each",price:83.33,cost:38.16,gp:51},
+  {sku:"13.403",desc:"X-Pak ProMeasure Height Measuring Stick",cat:"Truck Restraint",unit:"Each",price:545.7,cost:280.5,gp:45},
+  {sku:"13.404",desc:"X-Pak ProLauncher Strap Launching Device",cat:"Truck Restraint",unit:"Each",price:136.18,cost:70.0,gp:45},
+  {sku:"13.405",desc:"X-Pak ProSlider Strap Sleeve Positioner",cat:"Truck Restraint",unit:"Each",price:74.2,cost:38.14,gp:45},
+  {sku:"13.406",desc:"ProSweep",cat:"Truck Restraint",unit:"Each",price:46.23,cost:24.2,gp:44},
+  {sku:"13.407",desc:"ProSweep90",cat:"Truck Restraint",unit:"Each",price:46.56,cost:24.8,gp:43},
+  {sku:"13.408",desc:"ProSqueegee",cat:"Truck Restraint",unit:"Each",price:66.15,cost:34.0,gp:45},
+  {sku:"13.409",desc:"ProScraper",cat:"Truck Restraint",unit:"Each",price:48.63,cost:25.0,gp:45},
+  {sku:"13.410",desc:"ProScraper 45",cat:"Truck Restraint",unit:"Each",price:48.63,cost:25.0,gp:45},
+  {sku:"13.411",desc:"ProWash",cat:"Truck Restraint",unit:"Each",price:93.38,cost:48.0,gp:45},
+  {sku:"13.412",desc:"Pro Gripper",cat:"Truck Restraint",unit:"Each",price:73.93,cost:38.0,gp:45},
+  {sku:"13.500",desc:"X-Pak Ratchet Strap Hand Winder Yellow",cat:"Truck Restraint",unit:"Each",price:45.27,cost:22.0,gp:48},
+  {sku:"13.600",desc:"CargoChock Wheel Chock",cat:"Truck Restraint",unit:"Each",price:46.93,cost:25.0,gp:43},
+  {sku:"13.601",desc:"CargoChock Wheel Chock Holder",cat:"Truck Restraint",unit:"Each",price:32.65,cost:18.0,gp:41},
+  {sku:"13.610",desc:"Trok Pallet Truck Holder",cat:"Truck Restraint",unit:"Each",price:68.79,cost:36.0,gp:44},
+  {sku:"14.100",desc:"X-Pak Ratchet Strap 50mm x 9m Hook and Keeper 2500kg",cat:"Truck Restraint",unit:"Each",price:16.82,cost:9.43,gp:40},
+  {sku:"14.110",desc:"X-Pak Ratchet Strap 50mm x 11m Hook and Keeper 2500kg",cat:"Truck Restraint",unit:"Each",price:18.22,cost:10.22,gp:40},
+  {sku:"14.200",desc:"X-Pak Ratchet Strap 50mm x 9m J hook 2500kg",cat:"Truck Restraint",unit:"Each",price:13.91,cost:7.8,gp:40},
+  {sku:"14.300",desc:"X-Pak Pulldown Ratchet Strap 50mm x 9m Hook and Keeper 2500kg",cat:"Truck Restraint",unit:"Each",price:20.07,cost:10.32,gp:45},
+  {sku:"14.310",desc:"X-Pak Pulldown Ratchet Strap 50mm x 11m Hook and Keeper 2500kg",cat:"Truck Restraint",unit:"Each",price:21.52,cost:11.06,gp:45},
+  {sku:"15.200",desc:"X-Pak Single Strap Edge Protector HD Black",cat:"Truck Restraint",unit:"Each",price:2.62,cost:1.35,gp:45},
+  {sku:"15.300",desc:"X-Pak Heavy Edge Protector 800mm Yellow",cat:"Truck Restraint",unit:"Each",price:9.79,cost:5.03,gp:45},
+  {sku:"15.400",desc:"X-Pak Heavy Edge Protector 1150mm Yellow",cat:"Truck Restraint",unit:"Each",price:15.55,cost:7.99,gp:45},
+  {sku:"01.001",desc:"E-Tape No.1 50mm x 150m Clear",cat:"Tape",unit:"Roll",price:6.09,cost:3.7,gp:35}
+];
+
+// ─── CATEGORIES ──────────────────────────────────────────────────────────────
+const CATEGORIES = ["Dunnage Bags","Woven/PET Strapping","Machine Wrap","Hand Wrap","Pallet Films","Lashing","Corner Protection","Desiccants","Truck Restraint","Tape","Other"];
+const CAT_MAP = {
+  "Dunnage Bags":["Dunnage Bags"],
+  "Woven/PET Strapping":["Woven/PET Strapping"],
+  "Machine Wrap":["Machine Wrap"],
+  "Hand Wrap":["Hand Wrap"],
+  "Pallet Films":["Pallet Films"],
+  "Lashing":["Lashing"],
+  "Corner Protection":["Corner Protection"],
+  "Desiccants":["Desiccants"],
+  "Truck Restraint":["Truck Restraint"],
+  "Tape":["Tape"],
+  "Other":[],
+};
+
+// ─── HELPERS ─────────────────────────────────────────────────────────────────
+const fmt = (n) => n?.toLocaleString("en-AU",{minimumFractionDigits:0,maximumFractionDigits:0})||"0";
+const fmtK = (n) => n>=1000 ? `$${Math.round(n/1000)}k` : `$${fmt(n)}`;
+const annualise = (n,unit) => {
+  if(!n||isNaN(n)) return 0;
+  if(unit==="rolls/week"||unit==="bags/week"||unit==="units/week") return Math.round(n*52);
+  if(unit==="rolls/month"||unit==="bags/month"||unit==="units/month") return Math.round(n*12);
+  if(unit==="pallets/month") return Math.round(n*12);
+  return Math.round(n);
+};
+const getrank = (eas) => eas>=100000?"A":eas>=30000?"B":"C";
+const newProd = () => ({id:Date.now()+Math.random(),formCat:"",selectedSKU:null,usageRate:"",usageUnit:"rolls/week",supplier:"",painPoint:""});
+const newForm = (v={}) => ({
+  visitId:v.id||null,accountName:v.name||"",location:v.location||"",
+  decisionMaker:"",influencer:"",procurement:"",owner:"",currentSupplier:"",
+  products:[newProd()],trialAgreed:null,quoteRequired:null,urgency:null,followUpDate:"",
+});
+
+// ─── STORAGE ─────────────────────────────────────────────────────────────────
+const S = {
+  get:(k,def=null)=>{ try{ const v=localStorage.getItem(k); return v?JSON.parse(v):def; }catch(e){ return def; }},
+  set:(k,v)=>{ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} },
+  del:(k)=>{ try{ localStorage.removeItem(k); }catch(e){} },
+};
+
+// ─── SF CSV PARSER ────────────────────────────────────────────────────────────
+function parseSFCSV(text) {
+  const lines = text.trim().split('\n');
+  if(lines.length < 2) return [];
+  const headers = lines[0].split(',').map(h=>h.replace(/"/g,'').trim());
+  const nameIdx = headers.findIndex(h=>h.toLowerCase().includes('account name')||h.toLowerCase()==='name');
+  const cityIdx = headers.findIndex(h=>h.toLowerCase().includes('city')||h.toLowerCase().includes('location'));
+  const industryIdx = headers.findIndex(h=>h.toLowerCase().includes('industry')||h.toLowerCase().includes('category'));
+  const visitIdx = headers.findIndex(h=>h.toLowerCase().includes('visit'));
+  const accounts = [];
+  for(let i=1;i<lines.length;i++){
+    const cols = lines[i].match(/(".*?"|[^,]+)(?=,|$)/g)||[];
+    const clean = cols.map(c=>c.replace(/^"|"$/g,'').trim());
+    const name = clean[nameIdx]||"";
+    if(!name) continue;
+    accounts.push({
+      id: Date.now()+Math.random()+i,
+      name,
+      location: clean[cityIdx]||"",
+      category: clean[industryIdx]||"",
+      status: "planned",
+      eas: 0,
+      day: "",
+      date: "",
+      visitDetail: null,
+      isTBC: false,
+    });
+  }
+  return accounts;
+}
+
+// ─── APP ──────────────────────────────────────────────────────────────────────
+function App() {
+  // TRIPS
+  const [trips, setTrips] = useState(()=>S.get("xpak_trips_v1",[]));
+  const [activeTrip, setActiveTrip] = useState(()=>S.get("xpak_active_trip_v1",null));
+  const [screen, setScreen] = useState("home"); // home | newtrip | trip
+
+  // TRIP DATA
+  const [visits, setVisits] = useState([]);
+  const [notes, setNotes] = useState([]);
+
+  // TABS
+  const [tab, setTab] = useState("run");
+  const [form, setForm] = useState(newForm());
+  const [output, setOutput] = useState(null);
+  const [copied, setCopied] = useState("");
+  const [filterDay, setFilterDay] = useState("ALL");
+  const [expandedCard, setExpandedCard] = useState(null);
+  const [catSearch, setCatSearch] = useState("");
+  const [skuQuery, setSkuQuery] = useState({});
+  const [savedFlash, setSavedFlash] = useState(false);
+
+  // NOTES
+  const [noteAccount, setNoteAccount] = useState("");
+  const [transcript, setTranscript] = useState("");
+  const [recordState, setRecordState] = useState("idle");
+  const [recordError, setRecordError] = useState("");
+  const [showKeyEntry, setShowKeyEntry] = useState(false);
+  const [keyInput, setKeyInput] = useState("");
+  const recognitionRef = useRef(null);
+
+  // NEW TRIP FORM
+  const [newTripName, setNewTripName] = useState("");
+  const [newTripStart, setNewTripStart] = useState("");
+  const [newTripEnd, setNewTripEnd] = useState("");
+  const [newTripRegion, setNewTripRegion] = useState("");
+  const [importCSV, setImportCSV] = useState("");
+  const [importPreview, setImportPreview] = useState([]);
+  const [importStep, setImportStep] = useState(1);
+  const [showArchiveConfirm, setShowArchiveConfirm] = useState(false);
+
+  // PERSIST
+  useEffect(()=>{ S.set("xpak_trips_v1",trips); },[trips]);
+  useEffect(()=>{ S.set("xpak_active_trip_v1",activeTrip); },[activeTrip]);
+
+  // Load active trip data
+  useEffect(()=>{
+    if(activeTrip){
+      setVisits(S.get("xpak_visits_"+activeTrip,[]) );
+      setNotes(S.get("xpak_notes_"+activeTrip,[]));
+      setScreen("trip");
+    }
+  },[activeTrip]);
+
+  // Save visits when changed
+  useEffect(()=>{
+    if(activeTrip && visits.length>0){
+      S.set("xpak_visits_"+activeTrip,visits);
+      setSavedFlash(true);
+      const t=setTimeout(()=>setSavedFlash(false),1500);
+      return ()=>clearTimeout(t);
+    }
+  },[visits]);
+
+  // Save notes when changed
+  useEffect(()=>{
+    if(activeTrip) S.set("xpak_notes_"+activeTrip,notes);
+  },[notes]);
+
+  // API helpers
+  const getApiKey = ()=>{ try{ return localStorage.getItem("xpak_openai_key")||""; }catch(e){ return ""; }};
+  const saveApiKey = (k)=>{ try{ localStorage.setItem("xpak_openai_key",k); }catch(e){} };
+
+  // ── IMPORT CSV ────────────────────────────────────────────────────────────
+  const handleCSVPaste = (text) => {
+    setImportCSV(text);
+    const accounts = parseSFCSV(text);
+    setImportPreview(accounts);
+  };
+
+  const createTrip = () => {
+    if(!newTripName||importPreview.length===0) return;
+    const tripId = "trip_"+Date.now();
+    const trip = {
+      id: tripId,
+      name: newTripName,
+      region: newTripRegion,
+      startDate: newTripStart,
+      endDate: newTripEnd,
+      status: "active",
+      createdAt: new Date().toISOString(),
+      accountCount: importPreview.length,
+    };
+    setTrips(t=>[...t, trip]);
+    S.set("xpak_visits_"+tripId, importPreview);
+    S.set("xpak_notes_"+tripId, []);
+    setActiveTrip(tripId);
+    setVisits(importPreview);
+    setNotes([]);
+    setScreen("trip");
+    setTab("run");
+    // Reset new trip form
+    setNewTripName(""); setNewTripStart(""); setNewTripEnd(""); setNewTripRegion(""); setImportCSV(""); setImportPreview([]); setImportStep(1);
+  };
+
+  const openTrip = (tripId) => {
+    setActiveTrip(tripId);
+    setVisits(S.get("xpak_visits_"+tripId,[]));
+    setNotes(S.get("xpak_notes_"+tripId,[]));
+    setScreen("trip");
+    setTab("run");
+    setOutput(null);
+    setExpandedCard(null);
+  };
+
+  const archiveCurrentTrip = () => {
+    if(!activeTrip) return;
+    setTrips(ts=>ts.map(t=>t.id===activeTrip?{...t,status:"archived",archivedAt:new Date().toISOString()}:t));
+    setActiveTrip(null);
+    setVisits([]);
+    setNotes([]);
+    setScreen("home");
+    setShowArchiveConfirm(false);
+  };
+
+  // ── VISIT LOGIC ───────────────────────────────────────────────────────────
+  const lookupSKUs = (query,formCat) => {
+    const q=(query||"").toLowerCase().trim();
+    const allowed=formCat?(CAT_MAP[formCat]||[]):[];
+    return PRICELIST.filter(p=>{
+      const catMatch=allowed.length===0||allowed.includes(p.cat);
+      if(!q) return catMatch&&allowed.length>0;
+      return catMatch&&(p.sku.toLowerCase().includes(q)||p.desc.toLowerCase().includes(q));
+    }).slice(0,8);
+  };
+
+  const generateOutput = () => {
+    const prods = form.products.filter(p=>p.selectedSKU||p.formCat);
+    if(!form.accountName||prods.length===0) return;
+    const alerts = [];
+    if(!form.decisionMaker) alerts.push("DM not captured");
+    let totalEAS = 0;
+    prods.forEach(p=>{
+      if(p.selectedSKU&&p.usageRate){
+        const ann=annualise(parseFloat(p.usageRate),p.usageUnit);
+        p.ann=ann;
+        totalEAS+=ann*p.selectedSKU.price;
+      }
+    });
+    const r=getrank(totalEAS);
+    const sfText=`Account: ${form.accountName}
+Location: ${form.location}
+Decision Maker: ${form.decisionMaker||"Not captured"}
+Current Supplier: ${form.currentSupplier||"Not captured"}
+Annual Est. Value: ${fmtK(totalEAS)}
+Account Rank: ${r}
+Trial Agreed: ${form.trialAgreed==="Y"?"Yes":"No"}
+Quote Required: ${form.quoteRequired==="Y"?"Yes":"No"}
+Follow Up: ${form.followUpDate||"TBD"}
+
+Products:
+${prods.map(p=>`• ${p.selectedSKU?p.selectedSKU.desc:(p.formCat||"Product")}${p.selectedSKU?` (${p.selectedSKU.sku})`:""}${p.ann?` — est. ${fmt(p.ann)} ${p.usageUnit} p.a.`:""}${p.painPoint?` | ${p.painPoint}`:""}`).join("\n")}`;
+
+    const emailText=`Hi,\n\nGreat connecting today at ${form.accountName}.\n\n${form.trialAgreed==="Y"?"✅ Trial agreed — details to follow.\n":""}${form.quoteRequired==="Y"?"📄 Quote to follow.\n":""}\nProducts discussed:\n${prods.map(p=>`• ${p.selectedSKU?p.selectedSKU.desc:(p.formCat||"Product")}${p.painPoint?` — ${p.painPoint}`:""}`).join("\n")}\n\nEst. annual value: ${fmtK(totalEAS)}\n\nI'll follow up ${form.followUpDate?`on ${form.followUpDate}`:"shortly"}.\n\nBest,\n[Your Name] | X-Pak`;
+
+    if(form.visitId){
+      setVisits(vs=>vs.map(v=>v.id===form.visitId?{
+        ...v,
+        status:form.trialAgreed==="Y"?"done":alerts.length>0?"follow":"visited",
+        eas:totalEAS,
+        visitDetail:{
+          decisionMaker:form.decisionMaker,influencer:form.influencer,
+          procurement:form.procurement,owner:form.owner,
+          currentSupplier:form.currentSupplier,trialAgreed:form.trialAgreed,
+          quoteRequired:form.quoteRequired,urgency:form.urgency,
+          followUpDate:form.followUpDate,prods,totalEAS,rank:r,alerts,sfText,emailText,
+          savedAt:new Date().toLocaleString("en-AU",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"}),
+        }
+      }:v));
+    }
+    setOutput({prods,totalEAS,rank:r,alerts,sfText,emailText,accountName:form.accountName,location:form.location});
+    setTab("output");
+  };
+
+  const copy = (text,key) => {
+    navigator.clipboard.writeText(text).catch(()=>{
+      const el=document.createElement("textarea");
+      el.value=text; document.body.appendChild(el);
+      el.select(); document.execCommand("copy");
+      document.body.removeChild(el);
+    });
+    setCopied(key); setTimeout(()=>setCopied(""),2000);
+  };
+
+  // ── VOICE / WHISPER ───────────────────────────────────────────────────────
+  const startRecording = async () => {
+    setRecordError(""); setTranscript("");
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({audio:true});
+      const mimeType = MediaRecorder.isTypeSupported("audio/webm")?"audio/webm":"audio/mp4";
+      const mediaRecorder = new MediaRecorder(stream,{mimeType});
+      const chunks = [];
+      mediaRecorder.ondataavailable = (e)=>{ if(e.data.size>0) chunks.push(e.data); };
+      mediaRecorder.onstop = async ()=>{
+        stream.getTracks().forEach(t=>t.stop());
+        setRecordState("transcribing");
+        const apiKey = getApiKey();
+        if(!apiKey){ setShowKeyEntry(true); setRecordState("idle"); return; }
+        try {
+          const ext = mimeType.includes("mp4")?"mp4":"webm";
+          const audioBlob = new Blob(chunks,{type:mimeType});
+          const formData = new FormData();
+          formData.append("file",audioBlob,"recording."+ext);
+          formData.append("model","whisper-1");
+          formData.append("language","en");
+          formData.append("prompt","X-Pak packaging sales call. SKU codes like 02.048, 03.112. Suppliers: Fromm, Signode. Towns: Dubbo, Parkes, Griffith, Leeton, Albury, Tumbarumba, Tumut, Young, Bathurst, Mudgee, Wagga.");
+          const resp = await fetch("https://api.openai.com/v1/audio/transcriptions",{
+            method:"POST",headers:{"Authorization":"Bearer "+apiKey},body:formData
+          });
+          const data = await resp.json();
+          if(data.error){ setRecordError("Transcription error: "+data.error.message); setRecordState("idle"); return; }
+          setTranscript(data.text||"");
+          setRecordState("idle");
+        } catch(e){ setRecordError("Transcription failed — check connection."); setRecordState("idle"); }
+      };
+      recognitionRef.current = mediaRecorder;
+      mediaRecorder.start();
+      setRecordState("recording");
+    } catch(e){ setRecordError("Mic access denied."); setRecordState("idle"); }
+  };
+
+  const stopRecording = ()=>{ if(recognitionRef.current){ recognitionRef.current.stop(); recognitionRef.current=null; }};
+
+  const summariseNote = async () => {
+    const text = transcript.trim();
+    if(!text){ setRecordError("Nothing to summarise."); return; }
+    const apiKey = getApiKey();
+    if(!apiKey){ setShowKeyEntry(true); return; }
+    setRecordState("processing"); setRecordError("");
+    try {
+      const resp = await fetch("https://api.openai.com/v1/chat/completions",{
+        method:"POST",
+        headers:{"Content-Type":"application/json","Authorization":"Bearer "+apiKey},
+        body:JSON.stringify({
+          model:"gpt-4o-mini",max_tokens:800,
+          messages:[{role:"user",content:`You are an expert B2B sales assistant for X-Pak, a packaging and load restraint company. Summarise these raw voice-to-text field sales call notes into a structured CRM summary.
+
+Extract where present:
+CONTACTS: Name, role, buying style, personality cues
+PRODUCTS: SKU codes, descriptions, quantities, pack sizes
+COMPETITIVE INTEL: Current supplier, prices they pay, pricing anchors
+VOLUME & VALUE: Usage rates, annualised estimate (flag if uncertain)
+OPPORTUNITY: X-Pak positioning, likelihood of winning
+NEXT STEPS: Actions required, quotes to send, follow-up needed
+NOTES: Anything else relevant
+
+Be concise and specific. Flag uncertain calculations. Capture memorable quotes verbatim.
+
+Account: ${noteAccount||"Not specified"}
+Raw notes:
+${text}`}]
+        })
+      });
+      const data = await resp.json();
+      if(data.error){ setRecordError("API error: "+data.error.message); setRecordState("idle"); return; }
+      const summary = data.choices?.[0]?.message?.content||"Could not summarise.";
+      const newNote = {
+        id:Date.now(),account:noteAccount||"General",raw:text,summary,
+        time:new Date().toLocaleTimeString("en-AU",{hour:"2-digit",minute:"2-digit"}),
+        date:new Date().toLocaleDateString("en-AU",{weekday:"short",day:"numeric",month:"short"}),
+      };
+      setNotes(n=>[newNote,...n]);
+      setTranscript(""); setNoteAccount(""); setRecordState("idle");
+    } catch(e){ setRecordError("Summarise failed — check connection."); setRecordState("idle"); }
+  };
+
+  // ── DERIVED ───────────────────────────────────────────────────────────────
+  const nonTBC = visits.filter(v=>!v.isTBC);
+  const doneCount = nonTBC.filter(v=>v.status==="done"||v.status==="visited").length;
+  const followCount = nonTBC.filter(v=>v.status==="follow").length;
+  const missedCount = nonTBC.filter(v=>v.status==="missed").length;
+  const pipeline = nonTBC.reduce((s,v)=>s+(v.eas||0),0);
+  const days = [...new Set(visits.map(v=>v.day).filter(Boolean))];
+
+  const filtered = filterDay==="ALL" ? visits : visits.filter(v=>v.day===filterDay);
+  const grouped = {};
+  filtered.forEach(v=>{ const k=v.day||"UNASSIGNED"; if(!grouped[k]) grouped[k]=[]; grouped[k].push(v); });
+
+  const dayColors = {"MON":"#4b9cf5","TUE":"#f5a623","WED":"#e8441a","THU":"#4b9cf5","FRI":"#2dd87a"};
+  const vcCls = (s)=>`visit-card vc-${s==="tbc"?"tbc":s==="missed"?"missed":s}`;
+  const pillC = (s)=>`pill pill-${s==="missed"?"missed":s}`;
+  const pillL = (s)=>({planned:"☐ Planned",visited:"Visited",follow:"⚠️ Follow-Up",done:"✅ Done",tbc:"TBC",missed:"❌ Missed"}[s]||s);
+
+  const activeT = trips.find(t=>t.id===activeTrip);
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // HOME SCREEN
+  // ═══════════════════════════════════════════════════════════════════════════
+  if(screen==="home") return (
+    <div className="app">
+      <div className="hdr">
+        <div className="hdr-top">
+          <div>
+            <div className="logo">X<em>-PAK</em></div>
+            <div className="hdr-sub">Field Sales · {trips.filter(t=>t.status==="active").length} active trip</div>
+          </div>
+        </div>
+      </div>
+      <div className="content">
+        <div className="sec-label" style={{marginBottom:12}}>Active Trips</div>
+        {trips.filter(t=>t.status==="active").length===0 && (
+          <div style={{textAlign:"center",padding:"20px",color:"var(--muted)",fontSize:13,marginBottom:16}}>No active trips. Start one below.</div>
+        )}
+        {trips.filter(t=>t.status==="active").map(t=>(
+          <div key={t.id} className="trip-card active-trip" onClick={()=>openTrip(t.id)}>
+            <div className="trip-card-header">
+              <div>
+                <div className="trip-name">{t.name}</div>
+                <div className="trip-dates" style={{fontFamily:"var(--mono)",fontSize:10,color:"var(--muted)",marginTop:2}}>{t.region} · {t.startDate}{t.endDate?` → ${t.endDate}`:""}</div>
+              </div>
+              <span className="trip-status-chip active">ACTIVE</span>
+            </div>
+            <div className="trip-stats-row">
+              <div className="trip-stat"><span>{t.accountCount||0}</span><label>Accounts</label></div>
+              <div className="trip-stat"><span style={{color:"var(--accent)"}}>→</span><label>Open</label></div>
+            </div>
+          </div>
+        ))}
+
+        <button className="new-trip-btn" style={{marginBottom:20}} onClick={()=>setScreen("newtrip")}>+ Start New Trip</button>
+
+        {trips.filter(t=>t.status==="archived").length>0 && (
+          <>
+            <div className="sec-label" style={{marginBottom:12}}>Archived Trips</div>
+            {trips.filter(t=>t.status==="archived").map(t=>{
+              const tVisits = S.get("xpak_visits_"+t.id,[]);
+              const tDone = tVisits.filter(v=>v.status==="done"||v.status==="visited").length;
+              const tPipeline = tVisits.reduce((s,v)=>s+(v.eas||0),0);
+              return (
+                <div key={t.id} className="trip-card" onClick={()=>openTrip(t.id)}>
+                  <div className="trip-card-header">
+                    <div>
+                      <div className="trip-name">{t.name}</div>
+                      <div className="trip-dates">{t.region} · {t.startDate}</div>
+                    </div>
+                    <span className="trip-status-chip archived">ARCHIVED</span>
+                  </div>
+                  <div className="trip-stats-row">
+                    <div className="trip-stat"><span>{tDone}</span><label>Visited</label></div>
+                    <div className="trip-stat"><span>{fmtK(tPipeline)}</span><label>Pipeline</label></div>
+                  </div>
+                </div>
+              );
+            })}
+          </>
+        )}
+      </div>
+    </div>
+  );
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // NEW TRIP SCREEN
+  // ═══════════════════════════════════════════════════════════════════════════
+  if(screen==="newtrip") return (
+    <div className="app">
+      <div className="hdr">
+        <div className="hdr-top">
+          <div>
+            <div className="logo">X<em>-PAK</em></div>
+            <div className="hdr-sub">New Trip</div>
+          </div>
+          <button className="chip" onClick={()=>setScreen("home")}>✕ Cancel</button>
+        </div>
+      </div>
+      <div className="content">
+        {/* Step 1 — Trip Details */}
+        <div className="import-step">
+          <div className="import-step-num">1</div>
+          <div className="import-step-title">Trip Details</div>
+          <div className="field" style={{marginBottom:8}}>
+            <label className="lbl">Trip Name</label>
+            <input className="inp" placeholder="e.g. Central West March 2026" value={newTripName} onChange={e=>setNewTripName(e.target.value)}/>
+          </div>
+          <div className="inp-row" style={{marginBottom:8}}>
+            <div>
+              <label className="lbl">Start Date</label>
+              <input className="inp" type="date" value={newTripStart} onChange={e=>setNewTripStart(e.target.value)}/>
+            </div>
+            <div>
+              <label className="lbl">End Date</label>
+              <input className="inp" type="date" value={newTripEnd} onChange={e=>setNewTripEnd(e.target.value)}/>
+            </div>
+          </div>
+          <div className="field">
+            <label className="lbl">Region</label>
+            <input className="inp" placeholder="e.g. Central West NSW · Riverina · Albury" value={newTripRegion} onChange={e=>setNewTripRegion(e.target.value)}/>
+          </div>
+        </div>
+
+        {/* Step 2 — Import Accounts */}
+        <div className="import-step">
+          <div className="import-step-num">2</div>
+          <div className="import-step-title">Import Accounts from Salesforce</div>
+          <div className="import-step-desc">
+            In Salesforce, run your account report → Export → CSV. Then open the CSV, select all (Ctrl+A), copy (Ctrl+C) and paste below.
+            <br/><br/>
+            <strong style={{color:"var(--text)"}}>Required columns:</strong> Account Name, Shipping City, Industry
+          </div>
+          <textarea
+            className="inp"
+            style={{marginTop:10,minHeight:100,fontSize:12}}
+            placeholder={'Paste CSV data here...\n\n"Account Name","Visit","Shipping City","Industry"\n"Furneys Stockfeeds","0","Dubbo","AG/Stockfeed"'}
+            value={importCSV}
+            onChange={e=>handleCSVPaste(e.target.value)}
+          />
+          {importPreview.length>0 && (
+            <div style={{marginTop:10}}>
+              <div style={{fontSize:11,color:"var(--green)",fontWeight:600,marginBottom:6}}>✅ {importPreview.length} accounts detected</div>
+              <div className="import-preview">
+                {importPreview.slice(0,8).map((a,i)=>(
+                  <div key={i} className="import-row-preview">
+                    <span style={{color:"var(--text)"}}>{a.name}</span>
+                    <span style={{color:"var(--muted)"}}>{a.location}</span>
+                  </div>
+                ))}
+                {importPreview.length>8 && <div style={{color:"var(--muted)",padding:"4px 0"}}>...and {importPreview.length-8} more</div>}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Step 3 — Assign Days */}
+        {importPreview.length>0 && (
+          <div className="import-step">
+            <div className="import-step-num">3</div>
+            <div className="import-step-title">Assign Days (Optional)</div>
+            <div className="import-step-desc">Assign each account to a day and date. You can also do this later in the app.</div>
+            <div style={{marginTop:10,maxHeight:300,overflowY:"auto"}}>
+              {importPreview.map((a,i)=>(
+                <div key={i} style={{display:"flex",gap:6,alignItems:"center",padding:"6px 0",borderBottom:"1px solid var(--border)"}}>
+                  <div style={{flex:1,fontSize:12,color:"var(--text)"}}>{a.name}</div>
+                  <select className="inp" style={{width:80,fontSize:12,padding:"6px 8px"}} value={a.day||""} onChange={e=>{
+                    const updated=[...importPreview];
+                    updated[i]={...updated[i],day:e.target.value};
+                    setImportPreview(updated);
+                  }}>
+                    <option value="">Day</option>
+                    <option>MON</option><option>TUE</option><option>WED</option><option>THU</option><option>FRI</option>
+                  </select>
+                  <input className="inp" type="date" style={{width:130,fontSize:12,padding:"6px 8px"}} value={a.date||""} onChange={e=>{
+                    const updated=[...importPreview];
+                    updated[i]={...updated[i],date:e.target.value};
+                    setImportPreview(updated);
+                  }}/>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <button
+          className="btn btn-fire"
+          disabled={!newTripName||importPreview.length===0}
+          style={{opacity:(!newTripName||importPreview.length===0)?0.4:1}}
+          onClick={createTrip}
+        >🚀 Create Trip</button>
+      </div>
+    </div>
+  );
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // TRIP SCREEN
+  // ═══════════════════════════════════════════════════════════════════════════
+  const isArchived = activeT?.status==="archived";
+
+  return (
+    <div className="app">
+      {/* HEADER */}
+      <div className="hdr">
+        <div className="hdr-top">
+          <div>
+            <div className="logo">X<em>-PAK</em></div>
+            <div className="hdr-sub" style={{display:"flex",alignItems:"center",gap:8}}>
+              <span style={{cursor:"pointer",color:"var(--accent)"}} onClick={()=>setScreen("home")}>← Trips</span>
+              <span>· {activeT?.name||"Trip"}</span>
+              {isArchived && <span style={{fontFamily:"var(--mono)",fontSize:9,background:"var(--s3)",padding:"2px 6px",borderRadius:3,color:"var(--muted)"}}>ARCHIVED</span>}
+            </div>
+          </div>
+          <div className="hdr-chips">
+            <div className="chip">{visits.length} accts</div>
+            <div className="chip">{PRICELIST.length} SKUs</div>
+          </div>
+        </div>
+        <div className="tabs">
+          <button className={`tab ${tab==="run"?"on":""}`} onClick={()=>setTab("run")}>Run Sheet</button>
+          {!isArchived && <button className={`tab ${tab==="log"?"on":""}`} onClick={()=>setTab("log")}>Log Visit</button>}
+          <button className={`tab ${tab==="catalogue"?"on":""}`} onClick={()=>setTab("catalogue")}>Catalogue</button>
+          <button className={`tab ${tab==="notes"?"on":""}`} onClick={()=>setTab("notes")}>Notes{notes.length>0?` (${notes.length})`:""}</button>
+          {output && <button className={`tab ${tab==="output"?"on":""}`} onClick={()=>setTab("output")}>Output</button>}
+          {!isArchived && <button className={`tab`} style={{color:"var(--muted)"}} onClick={()=>setShowArchiveConfirm(true)}>Archive</button>}
+        </div>
+      </div>
+
+      {/* RUN SHEET */}
+      {tab==="run" && (
+        <div className="content">
+          {savedFlash && <div className="save-banner">✓ Progress saved</div>}
+          <div className="trip-stats" style={{gridTemplateColumns:"repeat(5,1fr)"}}>
+            <div className="ts"><div className="ts-val">{nonTBC.length}</div><div className="ts-lbl">Accts</div></div>
+            <div className="ts"><div className="ts-val green">{doneCount}</div><div className="ts-lbl">Done</div></div>
+            <div className="ts"><div className="ts-val" style={{color:"var(--accent)"}}>{followCount}</div><div className="ts-lbl">Follow</div></div>
+            <div className="ts"><div className="ts-val" style={{color:"var(--red)"}}>{missedCount}</div><div className="ts-lbl">Missed</div></div>
+            <div className="ts"><div className="ts-val" style={{fontSize:pipeline>999999?12:18,color:"var(--green)"}}>{fmtK(pipeline)}</div><div className="ts-lbl">Pipeline</div></div>
+          </div>
+
+          <div className="day-filter">
+            <button className={`df-btn ${filterDay==="ALL"?"on":""}`} onClick={()=>setFilterDay("ALL")}>ALL</button>
+            {days.map(d=><button key={d} className={`df-btn ${filterDay===d?"on":""}`} onClick={()=>setFilterDay(d)}>{d}</button>)}
+          </div>
+
+          {Object.entries(grouped).map(([day,dayVisits])=>{
+            const dayDone=dayVisits.filter(v=>v.status==="done"||v.status==="visited").length;
+            const dayPipeline=dayVisits.reduce((s,v)=>s+(v.eas||0),0);
+            const dot=dayColors[day]||"var(--border2)";
+            return (
+              <div key={day}>
+                <div className="day-header">
+                  <div className="day-dot" style={{background:dot}}/>
+                  <div>
+                    <div className="day-title">{day==="UNASSIGNED"?"Unassigned":day}</div>
+                    {dayVisits[0]?.date && <div className="day-sub">{dayVisits[0].date}</div>}
+                    <div className="day-chips">
+                      <span className="day-chip">{dayVisits.length} stops</span>
+                      {dayDone>0 && <span className="day-chip green">{dayDone} done</span>}
+                      {dayPipeline>0 && <span className="day-chip accent">{fmtK(dayPipeline)}</span>}
+                    </div>
+                  </div>
+                </div>
+                {dayVisits.map(v=>{
+                  const isExp=expandedCard===v.id;
+                  const d=v.visitDetail;
+                  const accNotes=notes.filter(n=>n.account===v.name);
+                  return (
+                    <div key={v.id} className={vcCls(v.status)}>
+                      <div onClick={()=>setExpandedCard(isExp?null:v.id)}>
+                        <div className="vc-top">
+                          <div className={`vc-name${v.isTBC?" tbc":""}`}>{v.name}</div>
+                          <div style={{display:"flex",alignItems:"center",gap:6}}>
+                            {v.eas>0 && <div className="vc-value">{fmtK(v.eas)}</div>}
+                            <span style={{color:"var(--muted)",fontSize:12}}>{isExp?"▲":"▼"}</span>
+                          </div>
+                        </div>
+                        <div className="vc-row">
+                          <span className="vc-loc">📍 {v.location}</span>
+                          <span className={pillC(v.status)}>{pillL(v.status)}</span>
+                          {v.category && <span className="pill pill-cat">{v.category}</span>}
+                          {accNotes.length>0 && <span className="pill pill-cat">🎤 {accNotes.length}</span>}
+                        </div>
+                        {!isArchived && (
+                          <div style={{display:"flex",gap:6,marginTop:8}} onClick={e=>e.stopPropagation()}>
+                            <button
+                              style={{flex:1,padding:"8px 4px",border:"1px solid",borderRadius:5,fontSize:11,fontFamily:"var(--display)",fontWeight:700,letterSpacing:1,cursor:"pointer",background:v.status==="visited"?"var(--blue-dim)":"var(--s2)",borderColor:v.status==="visited"?"var(--blue)":"var(--border)",color:v.status==="visited"?"var(--blue)":"var(--muted)",WebkitTapHighlightColor:"transparent"}}
+                              onClick={()=>setVisits(vs=>vs.map(x=>x.id===v.id?{...x,status:x.status==="visited"?"planned":"visited",eas:x.eas||0}:x))}
+                            >{v.status==="visited"?"✅ Visited":"☐ Mark Visited"}</button>
+                            <button
+                              style={{flex:1,padding:"8px 4px",border:"1px solid",borderRadius:5,fontSize:11,fontFamily:"var(--display)",fontWeight:700,letterSpacing:1,cursor:"pointer",background:v.status==="missed"?"var(--red-dim)":"var(--s2)",borderColor:v.status==="missed"?"var(--red)":"var(--border)",color:v.status==="missed"?"var(--red)":"var(--muted)",WebkitTapHighlightColor:"transparent"}}
+                              onClick={()=>{
+                                if(v.status==="missed"){ setVisits(vs=>vs.map(x=>x.id===v.id?{...x,status:"planned",missedReason:""}:x)); }
+                                else{ const r=prompt("Reason for missing? (optional)",""); setVisits(vs=>vs.map(x=>x.id===v.id?{...x,status:"missed",missedReason:r||""}:x)); }
+                              }}
+                            >{v.status==="missed"?"❌ Missed — Undo":"✕ Mark Missed"}</button>
+                          </div>
+                        )}
+                        {v.status==="missed"&&v.missedReason&&<div style={{fontSize:10,color:"var(--red)",marginTop:4,fontStyle:"italic"}}>Reason: {v.missedReason}</div>}
+                      </div>
+                      {isExp && (
+                        <div className="card-expanded">
+                          {d ? (
+                            <>
+                              {d.savedAt && <div style={{fontSize:10,color:"var(--muted)",marginBottom:8,fontFamily:"var(--mono)"}}>Logged {d.savedAt}</div>}
+                              <div className="exp-grid">
+                                {d.decisionMaker && <div className="exp-field"><label>Decision Maker</label><div>{d.decisionMaker}</div></div>}
+                                {d.currentSupplier && <div className="exp-field"><label>Current Supplier</label><div>{d.currentSupplier}</div></div>}
+                                {d.followUpDate && <div className="exp-field"><label>Follow Up</label><div style={{color:"var(--accent)"}}>{d.followUpDate}</div></div>}
+                                {d.rank && <div className="exp-field"><label>Rank</label><div style={{color:d.rank==="A"?"var(--green)":d.rank==="B"?"var(--accent)":"var(--muted)"}}>{d.rank}-Account</div></div>}
+                              </div>
+                              <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:10}}>
+                                {d.trialAgreed==="Y"&&<span className="pill pill-done">✅ Trial</span>}
+                                {d.quoteRequired==="Y"&&<span className="pill pill-follow">📄 Quote</span>}
+                                {d.urgency==="H"&&<span className="pill pill-follow">🔥 Urgent</span>}
+                              </div>
+                              {d.prods?.length>0 && (
+                                <div className="exp-prods">
+                                  {d.prods.map((p,i)=>{
+                                    const s=p.selectedSKU;
+                                    return <div key={i} className="exp-prod-row">
+                                      <span>{s?<><span style={{fontFamily:"var(--mono)",color:"var(--accent)",fontSize:10}}>{s.sku} </span>{s.desc}</>:(p.formCat||"Product")}</span>
+                                      {p.ann>0&&s&&<span style={{color:"var(--green)"}}>{fmtK(p.ann*s.price)}/yr</span>}
+                                    </div>;
+                                  })}
+                                </div>
+                              )}
+                              <div className="exp-actions">
+                                <button className="btn btn-ghost" style={{flex:1,fontSize:11,padding:"8px",letterSpacing:1}} onClick={()=>copy(d.sfText||"","sf-"+v.id)}>
+                                  {copied==="sf-"+v.id?"✅ Copied!":"📋 Copy CRM"}
+                                </button>
+                                {!isArchived && <button className="btn btn-ghost" style={{flex:1,fontSize:11,padding:"8px",letterSpacing:1}} onClick={()=>{setForm(newForm(v));setTab("log");}}>✏️ Edit</button>}
+                              </div>
+                            </>
+                          ) : (
+                            <div style={{fontSize:12,color:"var(--muted)",marginBottom:10}}>
+                              No visit logged yet.{!isArchived&&<span style={{color:"var(--accent)",cursor:"pointer"}} onClick={()=>{setForm(newForm(v));setTab("log");}}> Log visit →</span>}
+                            </div>
+                          )}
+                          {accNotes.length>0 && (
+                            <div style={{marginTop:10}}>
+                              <div style={{fontSize:9,color:"var(--blue)",textTransform:"uppercase",letterSpacing:1,marginBottom:6}}>Voice Notes ({accNotes.length})</div>
+                              {accNotes.map(n=>(
+                                <div key={n.id} style={{background:"var(--s2)",borderRadius:6,padding:"8px 10px",marginBottom:6}}>
+                                  <div style={{fontSize:9,color:"var(--muted)",fontFamily:"var(--mono)",marginBottom:4}}>{n.date} · {n.time}</div>
+                                  <div style={{fontSize:11,color:"var(--text)",lineHeight:1.5}}>{n.summary}</div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          })}
+          {!isArchived && <button className="fab" onClick={()=>{setForm(newForm());setTab("log");}}>➕</button>}
+        </div>
+      )}
+
+      {/* LOG VISIT */}
+      {tab==="log" && !isArchived && (
+        <div className="content">
+          <div className="form-section">
+            <div className="form-section-title">A · Decision Structure</div>
+            <div className="section-card">
+              <div className="inp-row">
+                <div className="field"><label className="lbl">Account</label><input className="inp" value={form.accountName} onChange={e=>setForm(f=>({...f,accountName:e.target.value}))} placeholder="Account name"/></div>
+                <div className="field"><label className="lbl">Location</label><input className="inp" value={form.location} onChange={e=>setForm(f=>({...f,location:e.target.value}))} placeholder="City"/></div>
+              </div>
+              <div className="field">
+                <label className="lbl">Decision Maker {!form.decisionMaker&&<span style={{color:"var(--accent)"}}>⚠️</span>}</label>
+                <input className="inp" value={form.decisionMaker} onChange={e=>setForm(f=>({...f,decisionMaker:e.target.value}))} placeholder="Name + role..."/>
+                {!form.decisionMaker&&<div className="alert-inline">⚠️ DM not captured</div>}
+              </div>
+              <div className="inp-row">
+                <div className="field"><label className="lbl">Influencer</label><input className="inp" value={form.influencer} onChange={e=>setForm(f=>({...f,influencer:e.target.value}))}/></div>
+                <div className="field"><label className="lbl">Procurement</label><input className="inp" value={form.procurement} onChange={e=>setForm(f=>({...f,procurement:e.target.value}))}/></div>
+              </div>
+              <div className="inp-row">
+                <div className="field"><label className="lbl">Owner</label><input className="inp" value={form.owner} onChange={e=>setForm(f=>({...f,owner:e.target.value}))}/></div>
+                <div className="field"><label className="lbl">Current Supplier</label><input className="inp" value={form.currentSupplier} onChange={e=>setForm(f=>({...f,currentSupplier:e.target.value}))}/></div>
+              </div>
+            </div>
+          </div>
+
+          <div className="form-section">
+            <div className="form-section-title">B · Products</div>
+            {form.products.map((prod,pi)=>(
+              <div key={prod.id} className="prod-block">
+                <div className="prod-block-title">Product {pi+1}</div>
+                <div className="field">
+                  <label className="lbl">Category</label>
+                  <select className="inp" value={prod.formCat} onChange={e=>{
+                    const v=e.target.value;
+                    setForm(f=>({...f,products:f.products.map((p,i)=>i===pi?{...p,formCat:v,selectedSKU:null}:p)}));
+                    setSkuQuery(q=>({...q,[prod.id]:""}));
+                  }}>
+                    <option value="">Select category...</option>
+                    {CATEGORIES.map(c=><option key={c}>{c}</option>)}
+                  </select>
+                </div>
+                {prod.formCat && (
+                  <div className="field">
+                    <label className="lbl">SKU Search</label>
+                    <input className="inp" placeholder="Search by SKU or description..." value={skuQuery[prod.id]||""} onChange={e=>setSkuQuery(q=>({...q,[prod.id]:e.target.value}))}/>
+                    {!prod.selectedSKU && (
+                      <div className="sku-list">
+                        {lookupSKUs(skuQuery[prod.id],prod.formCat).map(s=>(
+                          <div key={s.sku} className="sku-item" onClick={()=>setForm(f=>({...f,products:f.products.map((p,i)=>i===pi?{...p,selectedSKU:s}:p)}))}>
+                            <div><div className="sku-code">{s.sku}</div><div className="sku-desc">{s.desc}</div><div className="sku-unit" style={{fontSize:9,color:"var(--muted)"}}>{s.unit}</div></div>
+                            <div style={{textAlign:"right"}}><div className="sku-price">${s.price}</div><div className="sku-gp">{s.gp}% GP</div></div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    {prod.selectedSKU && (
+                      <div className="sku-selected">
+                        <div><div style={{fontFamily:"var(--mono)",fontSize:10,color:"var(--green)"}}>{prod.selectedSKU.sku}</div><div style={{fontSize:11}}>{prod.selectedSKU.desc}</div><div style={{fontSize:10,color:"var(--accent)"}}>${prod.selectedSKU.price} · {prod.selectedSKU.gp}% GP</div></div>
+                        <button className="sku-clear" onClick={()=>setForm(f=>({...f,products:f.products.map((p,i)=>i===pi?{...p,selectedSKU:null}:p)}))}>✕</button>
+                      </div>
+                    )}
+                  </div>
+                )}
+                <div className="inp-row">
+                  <div className="field">
+                    <label className="lbl">Usage Rate</label>
+                    <input className="inp" type="number" value={prod.usageRate} onChange={e=>setForm(f=>({...f,products:f.products.map((p,i)=>i===pi?{...p,usageRate:e.target.value}:p)}))} placeholder="0"/>
+                  </div>
+                  <div className="field">
+                    <label className="lbl">Per</label>
+                    <select className="inp" value={prod.usageUnit} onChange={e=>setForm(f=>({...f,products:f.products.map((p,i)=>i===pi?{...p,usageUnit:e.target.value}:p)}))}>
+                      <option>rolls/week</option><option>rolls/month</option><option>bags/week</option><option>bags/month</option><option>units/week</option><option>units/month</option><option>pallets/month</option>
+                    </select>
+                  </div>
+                </div>
+                {prod.selectedSKU && prod.usageRate && (
+                  <div className="live-calc">
+                    <div className="lc-row"><span className="lc-label">Annual units</span><span className="lc-val">{fmt(annualise(parseFloat(prod.usageRate),prod.usageUnit))}</span></div>
+                    <div className="lc-row"><span className="lc-label">Annual revenue</span><span className="lc-val">{fmtK(annualise(parseFloat(prod.usageRate),prod.usageUnit)*prod.selectedSKU.price)}</span></div>
+                    <div className="lc-row"><span className="lc-label">GP</span><span className="lc-val">{prod.selectedSKU.gp}%</span></div>
+                  </div>
+                )}
+                <div className="field">
+                  <label className="lbl">Current Supplier / Pain Point</label>
+                  <input className="inp" value={prod.painPoint} onChange={e=>setForm(f=>({...f,products:f.products.map((p,i)=>i===pi?{...p,painPoint:e.target.value}:p)}))} placeholder="e.g. Fromm, price issues..."/>
+                </div>
+                {form.products.length>1 && <button className="btn btn-ghost" style={{padding:"8px",fontSize:11}} onClick={()=>setForm(f=>({...f,products:f.products.filter((_,i)=>i!==pi)}))}>Remove Product</button>}
+              </div>
+            ))}
+            <button className="add-prod" onClick={()=>setForm(f=>({...f,products:[...f.products,newProd()]}))}>+ Add Another Product</button>
+          </div>
+
+          <div className="form-section">
+            <div className="form-section-title">C · Commercial</div>
+            <div className="section-card">
+              <div className="field"><label className="lbl">Trial Agreed?</label>
+                <div className="tog-row">
+                  {["Y","N"].map(v=><button key={v} className={`tog ${form.trialAgreed===v?(v==="Y"?"t-y":"t-n"):""}`} onClick={()=>setForm(f=>({...f,trialAgreed:v}))}>{v==="Y"?"Yes":"No"}</button>)}
+                </div>
+              </div>
+              <div className="field"><label className="lbl">Quote Required?</label>
+                <div className="tog-row">
+                  {["Y","N"].map(v=><button key={v} className={`tog ${form.quoteRequired===v?(v==="Y"?"t-y":"t-n"):""}`} onClick={()=>setForm(f=>({...f,quoteRequired:v}))}>{v==="Y"?"Yes":"No"}</button>)}
+                </div>
+              </div>
+              <div className="field"><label className="lbl">Urgency</label>
+                <div className="tog-row">
+                  {[["H","🔥 High"],["M","Medium"],["L","Low"]].map(([v,l])=><button key={v} className={`tog ${form.urgency===v?`t-${v.toLowerCase()}`:""}`} onClick={()=>setForm(f=>({...f,urgency:v}))}>{l}</button>)}
+                </div>
+              </div>
+              <div className="field"><label className="lbl">Follow-Up Date</label><input className="inp" type="date" value={form.followUpDate} onChange={e=>setForm(f=>({...f,followUpDate:e.target.value}))}/></div>
+            </div>
+          </div>
+
+          <button className="btn btn-fire" onClick={generateOutput}>⚡ Generate Output</button>
+          <button className="btn btn-ghost" onClick={()=>{setForm(newForm());setTab("run");}}>Cancel</button>
+        </div>
+      )}
+
+      {/* CATALOGUE */}
+      {tab==="catalogue" && (
+        <div className="content">
+          <input className="search-box" placeholder="Search SKU or description..." value={catSearch} onChange={e=>setCatSearch(e.target.value)}/>
+          {CATEGORIES.filter(c=>c!=="Other").map(cat=>{
+            const items=PRICELIST.filter(p=>p.cat===cat&&(
+              !catSearch||p.sku.toLowerCase().includes(catSearch.toLowerCase())||p.desc.toLowerCase().includes(catSearch.toLowerCase())
+            ));
+            if(!items.length) return null;
+            return (
+              <div key={cat} className="cat-section">
+                <div className="cat-section-title">{cat}</div>
+                {items.map(p=>(
+                  <div key={p.sku} className="cat-row" onClick={()=>{setForm(f=>({...f,products:f.products.map((prod,i)=>i===f.products.length-1?{...prod,formCat:cat,selectedSKU:p}:prod)}));setTab("log");}}>
+                    <div className="cat-sku">{p.sku}</div>
+                    <div className="cat-name">{p.desc}</div>
+                    <div style={{textAlign:"right"}}><div className="cat-price">${p.price}</div><div className="cat-unit">{p.unit} · {p.gp}% GP</div></div>
+                  </div>
+                ))}
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* NOTES */}
+      {tab==="notes" && (
+        <div className="content">
+          <div className="sec-label" style={{marginBottom:12}}>Voice Notes · {notes.length} saved</div>
+
+          {!isArchived && (
+            <div className="section-card" style={{marginBottom:16}}>
+              <div className="field">
+                <label className="lbl">Account</label>
+                <select className="inp" value={noteAccount} onChange={e=>setNoteAccount(e.target.value)}>
+                  <option value="">General / Trip Note</option>
+                  {visits.filter(v=>!v.isTBC).map(v=><option key={v.id} value={v.name}>{v.name} — {v.location}</option>)}
+                </select>
+              </div>
+
+              {showKeyEntry && (
+                <div style={{background:"var(--s2)",border:"1px solid var(--accent)",borderRadius:8,padding:14,marginBottom:12}}>
+                  <div className="sec-label" style={{marginBottom:8,color:"var(--accent)"}}>🔑 Enter OpenAI API Key</div>
+                  <div style={{fontSize:12,color:"var(--muted)",marginBottom:10,lineHeight:1.5}}>Saved only on this device — never shared.</div>
+                  <input type="password" className="inp" style={{marginBottom:8}} placeholder="sk-proj-..." value={keyInput} onChange={e=>setKeyInput(e.target.value)}/>
+                  <button className="btn btn-accent" onClick={()=>{
+                    if(keyInput.trim().startsWith("sk-")){ saveApiKey(keyInput.trim()); setKeyInput(""); setShowKeyEntry(false); }
+                    else setRecordError("Invalid key — should start with sk-");
+                  }}>Save Key</button>
+                  <button className="btn btn-ghost" style={{marginTop:4}} onClick={()=>setShowKeyEntry(false)}>Cancel</button>
+                </div>
+              )}
+
+              {getApiKey() && !showKeyEntry && (
+                <div style={{textAlign:"right",marginBottom:6}}>
+                  <button style={{background:"none",border:"none",color:"var(--muted)",fontSize:10,cursor:"pointer"}} onClick={()=>{localStorage.removeItem("xpak_openai_key");setRecordError("Key cleared.");}}>🔑 Clear saved key</button>
+                </div>
+              )}
+
+              <button className={`record-btn ${recordState}`} onClick={recordState==="recording"?stopRecording:startRecording} disabled={recordState==="processing"||recordState==="transcribing"}>
+                {recordState==="idle"&&<><span>🎤</span>Tap to Record</>}
+                {recordState==="recording"&&<><span>⏹</span>Recording… Tap to Stop</>}
+                {recordState==="transcribing"&&<><span>⏳</span>Transcribing with Whisper…</>}
+                {recordState==="processing"&&<><span>✨</span>Summarising…</>}
+              </button>
+
+              {transcript && (
+                <textarea className="inp" style={{marginBottom:8}} value={transcript} onChange={e=>setTranscript(e.target.value)} placeholder="Transcript appears here…"/>
+              )}
+              {recordError && <div className="alert-inline">⚠️ {recordError}</div>}
+              {transcript && recordState==="idle" && (
+                <button className="btn btn-fire" onClick={summariseNote}>✨ Summarise with AI</button>
+              )}
+            </div>
+          )}
+
+          {notes.length===0 ? (
+            <div className="empty-notes"><div className="big">🎤</div><div>Record a voice note above to get started.</div></div>
+          ) : notes.map(note=>(
+            <div key={note.id} className="note-card">
+              <div className="note-card-header">
+                <div><div className="note-account-name">{note.account}</div><div className="note-time">{note.date} · {note.time}</div></div>
+                {!isArchived && <button className="del-note" onClick={()=>setNotes(n=>n.filter(x=>x.id!==note.id))}>🗑</button>}
+              </div>
+              {note.summary && <><div className="note-summary-label">AI Summary</div><div className="note-summary">{note.summary}</div></>}
+              {note.raw && <details style={{marginTop:10}}><summary style={{fontSize:10,color:"var(--muted)",cursor:"pointer",fontFamily:"var(--mono)"}}>Raw transcript ▾</summary><div className="note-raw" style={{marginTop:6}}>{note.raw}</div></details>}
+              <button className="btn btn-ghost" style={{marginTop:12,fontSize:11,padding:"8px",letterSpacing:1}} onClick={()=>{copy(`CALL NOTES — ${note.account} (${note.date} ${note.time})\n\n${note.summary}`,"note-"+note.id);}}>
+                {copied==="note-"+note.id?"✅ Copied!":"📋 Copy to CRM"}
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* OUTPUT */}
+      {tab==="output" && output && (
+        <div className="content">
+          <div className="out-hero">
+            <div className="out-account">{output.accountName}</div>
+            <div style={{fontSize:11,color:"var(--muted)",marginBottom:10}}>📍 {output.location}</div>
+            <div className="out-grid">
+              <div><div className={`out-val green`}>{fmtK(output.totalEAS)}</div><div className="out-lbl">Est. Annual Spend</div></div>
+              <div><div className="out-val accent">{output.prods.length}</div><div className="out-lbl">Products</div></div>
+            </div>
+            <div className={`rank-chip rank-${output.rank}`}>⭐ {output.rank}-Account</div>
+          </div>
+          {output.alerts.length>0 && <div className="alert-inline">⚠️ {output.alerts.join(" · ")}</div>}
+          <div className="out-block">
+            {output.prods.map((p,i)=>{
+              const s=p.selectedSKU;
+              return <div key={i} className="prod-out-row">
+                <div><div className="por-name">{s?s.desc:(p.formCat||"Product")}</div>{s&&<div className="por-sku">{s.sku}</div>}{p.painPoint&&<div className="por-pain">{p.painPoint}</div>}</div>
+                <div style={{textAlign:"right"}}>{s&&<div className="por-price">${s.price}</div>}{p.ann&&<div className="por-ann">{fmt(p.ann)} {p.usageUnit}</div>}</div>
+              </div>;
+            })}
+          </div>
+          <div className="out-block">
+            <div style={{fontSize:11,fontWeight:600,marginBottom:8,color:"var(--muted)"}}>SALESFORCE CRM</div>
+            <pre>{output.sfText}</pre>
+          </div>
+          {copied==="sf"&&<div className="copy-ok">✅ Copied to clipboard</div>}
+          <button className="btn btn-accent" onClick={()=>copy(output.sfText,"sf")}>📋 Copy CRM Summary</button>
+          <div className="out-block" style={{marginTop:4}}>
+            <div style={{fontSize:11,fontWeight:600,marginBottom:8,color:"var(--muted)"}}>FOLLOW-UP EMAIL</div>
+            <pre>{output.emailText}</pre>
+          </div>
+          {copied==="email"&&<div className="copy-ok">✅ Copied to clipboard</div>}
+          <button className="btn btn-ghost" onClick={()=>copy(output.emailText,"email")}>📋 Copy Email</button>
+          <button className="btn btn-ghost" onClick={()=>{setForm(newForm());setTab("log");}}>+ Log Another Visit</button>
+        </div>
+      )}
+
+      {/* ARCHIVE CONFIRM MODAL */}
+      {showArchiveConfirm && (
+        <div className="modal-overlay" onClick={()=>setShowArchiveConfirm(false)}>
+          <div className="modal" onClick={e=>e.stopPropagation()}>
+            <div className="modal-title">Archive Trip?</div>
+            <div className="modal-sub">This will save all visit data and notes, and mark the trip as complete. You can still view it anytime.</div>
+            <button className="btn btn-fire" onClick={archiveCurrentTrip}>✅ Archive & Complete</button>
+            <button className="btn btn-ghost" onClick={()=>setShowArchiveConfirm(false)}>Cancel</button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+>>>>>>> 4f75120f2100aaebcbcb0b8cca2e1dd310a90ad2
+</html>
