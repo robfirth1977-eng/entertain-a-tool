@@ -200,7 +200,11 @@ function BoardTab({ hosts, guests, onChange }) {
     return (
       <div
         draggable={draggable}
-        onDragStart={() => setDragId(g.id)}
+        onDragStart={e => {
+          e.dataTransfer.effectAllowed = 'move'
+          e.dataTransfer.setData('text/plain', g.id)
+          setDragId(g.id)
+        }}
         onDragEnd={() => setDragId(null)}
         style={{
           background: '#fff', borderRadius: 10, padding: '10px 12px', marginBottom: 8,
@@ -231,7 +235,7 @@ function BoardTab({ hosts, guests, onChange }) {
       )}
       <div style={{ display: 'grid', gridTemplateColumns: '260px 1fr', gap: 16, alignItems: 'start' }}>
         <div
-          onDragOver={e => e.preventDefault()}
+          onDragOver={e => { e.preventDefault(); e.dataTransfer.dropEffect = 'move' }}
           onDrop={() => { const g = guests.find(x => x.id === dragId); if (g) unassign(g) }}
           style={{ background: '#fff', borderRadius: 14, padding: 14, boxShadow: '0 1px 6px rgba(0,0,0,0.06)', minHeight: 200 }}
         >
@@ -255,7 +259,7 @@ function BoardTab({ hosts, guests, onChange }) {
             return (
               <div
                 key={h.id}
-                onDragOver={e => e.preventDefault()}
+                onDragOver={e => { e.preventDefault(); e.dataTransfer.dropEffect = 'move' }}
                 onDrop={() => { const g = guests.find(x => x.id === dragId); if (g) assign(g, h) }}
                 style={{ background: '#fff', borderRadius: 14, padding: 14, boxShadow: '0 1px 6px rgba(0,0,0,0.06)', minHeight: 140 }}
               >
