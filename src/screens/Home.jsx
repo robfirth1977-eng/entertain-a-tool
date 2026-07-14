@@ -126,7 +126,7 @@ export default function Home({ onPlanEvent }) {
             Welcome back, Rob
           </div>
           <h1 style={{ color: '#fff', fontSize: 30, fontWeight: 800, letterSpacing: '-0.5px', margin: 0 }}>
-            Entertain-a-tool
+            Hosting Angel
           </h1>
           {stats.lastEvent ? (
             <p style={{ margin: '10px 0 0', color: 'rgba(255,255,255,0.55)', fontSize: 13 }}>

@@ -5,6 +5,7 @@ import Guests from './screens/Guests'
 import AddHousehold from './screens/AddHousehold'
 import PlanEvent from './screens/PlanEvent'
 import EventHistory from './screens/EventHistory'
+import Billet from './screens/Billet'
 import './index.css'
 
 const NAV = [
@@ -12,6 +13,7 @@ const NAV = [
   { id: 'households', label: 'Households', icon: '🏡' },
   { id: 'guests',     label: 'Guests',     icon: '👥' },
   { id: 'events',     label: 'Events',     icon: '📅' },
+  { id: 'billet',     label: 'Billet',     icon: '🏘' },
   { id: 'add',        label: 'Add',        icon: '+' },
 ]
 
@@ -23,6 +25,7 @@ export default function App() {
     households: <Households />,
     guests:     <Guests />,
     events:     <EventHistory />,
+    billet:     <Billet />,
     add:        <AddHousehold onDone={() => setScreen('households')} />,
     plan:       <PlanEvent onBack={() => setScreen('home')} />,
   }
