@@ -52,3 +52,8 @@ alter table billet_guests enable row level security;
 create policy "anon full access" on billet_rounds for all using (true) with check (true);
 create policy "anon full access" on billet_hosts  for all using (true) with check (true);
 create policy "anon full access" on billet_guests for all using (true) with check (true);
+
+-- Links a billet host to an existing household (for continuity between the
+-- entertaining tracker and billeting -- same person, same record). Safe to
+-- run again if you already ran the block above.
+alter table billet_hosts add column if not exists household_id text references households(id) on delete set null;

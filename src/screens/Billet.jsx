@@ -172,11 +172,15 @@ function RoundDetail({ round, onBack }) {
 }
 
 // ── Board ────────────────────────────────────────────────────────────────
+// Tap a guest to select it, then tap a host (or "Unassigned") to place it.
+// (Native HTML5 drag-and-drop turned out to be unreliable across browsers,
+// so this mirrors the tap-to-place pattern already used in TablePlanner.)
 function BoardTab({ hosts, guests, onChange }) {
-  const [dragId, setDragId]   = useState(null)
-  const [warning, setWarning] = useState(null)
+  const [selected, setSelected] = useState(null) // guest id currently held
+  const [warning, setWarning]   = useState(null)
 
   const unassigned = guests.filter(g => !g.host_id)
+  const selectedGuest = guests.find(g => g.id === selected) || null
 
   async function assign(guest, host) {
     const others = guests.filter(g => g.host_id === host.id && g.id !== guest.id)
@@ -186,47 +190,58 @@ function BoardTab({ hosts, guests, onChange }) {
     } else {
       setWarning(null)
     }
+    setSelected(null)
     await supabase.from('billet_guests').update({ host_id: host.id }).eq('id', guest.id)
     onChange()
   }
 
   async function unassign(guest) {
-    await supabase.from('billet_guests').update({ host_id: null }).eq('id', guest.id)
+    setSelected(null)
     setWarning(null)
+    await supabase.from('billet_guests').update({ host_id: null }).eq('id', guest.id)
     onChange()
   }
 
-  function GuestCard({ g, draggable = true }) {
+  function toggleSelect(guestId) {
+    setSelected(s => s === guestId ? null : guestId)
+  }
+
+  function GuestCard({ g }) {
+    const isSel = selected === g.id
     return (
       <div
-        draggable={draggable}
-        onDragStart={e => {
-          e.dataTransfer.effectAllowed = 'move'
-          e.dataTransfer.setData('text/plain', g.id)
-          setDragId(g.id)
-        }}
-        onDragEnd={() => setDragId(null)}
+        onClick={e => { e.stopPropagation(); toggleSelect(g.id) }}
         style={{
-          background: '#fff', borderRadius: 10, padding: '10px 12px', marginBottom: 8,
-          boxShadow: '0 1px 4px rgba(0,0,0,0.06)', cursor: draggable ? 'grab' : 'default',
-          borderLeft: '3px solid #E8A838', opacity: dragId === g.id ? 0.4 : 1,
+          background: isSel ? '#FDF3DC' : '#fff', borderRadius: 10, padding: '10px 12px', marginBottom: 8,
+          boxShadow: '0 1px 4px rgba(0,0,0,0.06)', cursor: 'pointer',
+          border: `1.5px solid ${isSel ? '#E8A838' : 'transparent'}`,
+          borderLeft: `3px solid ${isSel ? '#E8A838' : '#E8A838'}`,
         }}
       >
         <div style={{ fontWeight: 700, fontSize: 13, color: '#0F2942' }}>{g.contact_name}</div>
         <div style={{ fontSize: 11, color: '#7F8C8D', marginTop: 2 }}>
           {g.party_size} {g.party_size === 1 ? 'person' : 'people'} · {fmtDate(g.arrival_date)} → {fmtDate(g.departure_date)}
         </div>
-        {g.host_id && (
-          <button onClick={() => unassign(g)} style={{ marginTop: 6, fontSize: 10, fontWeight: 700, color: '#E74C3C', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
-            Unassign
-          </button>
-        )}
+        <div style={{ display: 'flex', gap: 10, marginTop: 6 }}>
+          {isSel && <span style={{ fontSize: 10, fontWeight: 700, color: '#D4922A' }}>Selected — tap a host</span>}
+          {g.host_id && (
+            <button onClick={e => { e.stopPropagation(); unassign(g) }} style={{ fontSize: 10, fontWeight: 700, color: '#E74C3C', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
+              Unassign
+            </button>
+          )}
+        </div>
       </div>
     )
   }
 
   return (
     <div>
+      {selectedGuest && (
+        <div style={{ background: '#E8A838', borderRadius: 10, padding: '9px 14px', marginBottom: 16, fontSize: 13, fontWeight: 700, color: '#0F2942', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span>Placing: {selectedGuest.contact_name} — tap a host to assign, or "Unassigned" to clear</span>
+          <button onClick={() => setSelected(null)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#0F2942', fontWeight: 800, fontSize: 16, padding: '0 0 0 8px' }}>✕</button>
+        </div>
+      )}
       {warning && (
         <div style={{ background: '#FEF2F2', color: '#E74C3C', borderRadius: 10, padding: '10px 14px', marginBottom: 16, fontSize: 13, fontWeight: 600, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <span>⚠ {warning}</span>
@@ -235,9 +250,8 @@ function BoardTab({ hosts, guests, onChange }) {
       )}
       <div style={{ display: 'grid', gridTemplateColumns: '260px 1fr', gap: 16, alignItems: 'start' }}>
         <div
-          onDragOver={e => { e.preventDefault(); e.dataTransfer.dropEffect = 'move' }}
-          onDrop={() => { const g = guests.find(x => x.id === dragId); if (g) unassign(g) }}
-          style={{ background: '#fff', borderRadius: 14, padding: 14, boxShadow: '0 1px 6px rgba(0,0,0,0.06)', minHeight: 200 }}
+          onClick={() => { if (selectedGuest && selectedGuest.host_id) unassign(selectedGuest) }}
+          style={{ background: '#fff', borderRadius: 14, padding: 14, boxShadow: '0 1px 6px rgba(0,0,0,0.06)', minHeight: 200, cursor: selectedGuest?.host_id ? 'pointer' : 'default' }}
         >
           <div style={{ fontSize: 11, fontWeight: 700, color: '#7F8C8D', textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 12 }}>
             Unassigned ({unassigned.length})
@@ -259,9 +273,12 @@ function BoardTab({ hosts, guests, onChange }) {
             return (
               <div
                 key={h.id}
-                onDragOver={e => { e.preventDefault(); e.dataTransfer.dropEffect = 'move' }}
-                onDrop={() => { const g = guests.find(x => x.id === dragId); if (g) assign(g, h) }}
-                style={{ background: '#fff', borderRadius: 14, padding: 14, boxShadow: '0 1px 6px rgba(0,0,0,0.06)', minHeight: 140 }}
+                onClick={() => { if (selectedGuest) assign(selectedGuest, h) }}
+                style={{
+                  background: '#fff', borderRadius: 14, padding: 14, boxShadow: '0 1px 6px rgba(0,0,0,0.06)', minHeight: 140,
+                  cursor: selectedGuest ? 'pointer' : 'default',
+                  outline: selectedGuest ? '2px dashed #E8A838' : 'none', outlineOffset: -2,
+                }}
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
                   <div style={{ fontWeight: 700, fontSize: 14, color: '#0F2942' }}>{h.name}</div>
@@ -275,9 +292,9 @@ function BoardTab({ hosts, guests, onChange }) {
                 {h.locality && <div style={{ fontSize: 11, color: '#7F8C8D', marginBottom: 8 }}>{h.locality}</div>}
                 {assigned.length === 0 ? (
                   <div style={{ fontSize: 11, color: '#D0D8E4', border: '1.5px dashed #E2E8F0', borderRadius: 8, padding: '14px', textAlign: 'center' }}>
-                    Drop a guest here
+                    Tap a selected guest here to assign
                   </div>
-                ) : assigned.map(g => <GuestCard key={g.id} g={g} draggable />)}
+                ) : assigned.map(g => <GuestCard key={g.id} g={g} />)}
               </div>
             )
           })}
@@ -289,20 +306,28 @@ function BoardTab({ hosts, guests, onChange }) {
 
 // ── Hosts ────────────────────────────────────────────────────────────────
 function HostsTab({ round, hosts, guests, onChange }) {
-  const [editing, setEditing] = useState(null)
-  const [adding, setAdding]   = useState(false)
+  const [editing, setEditing]     = useState(null)
+  const [adding, setAdding]       = useState(false)
+  const [households, setHouseholds] = useState([])
+
+  useEffect(() => {
+    supabase.from('households').select('id, householder, locality')
+      .eq('locality', 'Tamworth').order('householder')
+      .then(({ data }) => setHouseholds(data || []))
+  }, [])
 
   async function save(form) {
+    const base = {
+      name: form.name, contact: form.contact, capacity: Number(form.capacity) || 1,
+      locality: form.locality, notes: form.notes,
+    }
+    const withLink = { ...base, household_id: form.household_id || null }
     if (form.id) {
-      await supabase.from('billet_hosts').update({
-        name: form.name, contact: form.contact, capacity: Number(form.capacity) || 1,
-        locality: form.locality, notes: form.notes,
-      }).eq('id', form.id)
+      const { error } = await supabase.from('billet_hosts').update(withLink).eq('id', form.id)
+      if (error) await supabase.from('billet_hosts').update(base).eq('id', form.id)
     } else {
-      await supabase.from('billet_hosts').insert({
-        round_id: round.id, name: form.name, contact: form.contact,
-        capacity: Number(form.capacity) || 1, locality: form.locality, notes: form.notes,
-      })
+      const { error } = await supabase.from('billet_hosts').insert({ ...withLink, round_id: round.id })
+      if (error) await supabase.from('billet_hosts').insert({ ...base, round_id: round.id })
     }
     setEditing(null); setAdding(false); onChange()
   }
@@ -315,7 +340,7 @@ function HostsTab({ round, hosts, guests, onChange }) {
   return (
     <div>
       {(editing || adding) && (
-        <HostEditor host={editing} onClose={() => { setEditing(null); setAdding(false) }} onSave={save} />
+        <HostEditor host={editing} households={households} onClose={() => { setEditing(null); setAdding(false) }} onSave={save} />
       )}
       <button onClick={() => setAdding(true)} style={{
         width: '100%', padding: '14px', marginBottom: 16, background: '#0F2942', color: '#fff',
@@ -330,7 +355,14 @@ function HostsTab({ round, hosts, guests, onChange }) {
           <div key={h.id} style={{ background: '#fff', borderRadius: 12, padding: '14px 16px', marginBottom: 10, boxShadow: '0 1px 6px rgba(0,0,0,0.06)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
               <div>
-                <div style={{ fontWeight: 700, fontSize: 14, color: '#0F2942' }}>{h.name}</div>
+                <div style={{ fontWeight: 700, fontSize: 14, color: '#0F2942' }}>
+                  {h.name}
+                  {h.household_id && (
+                    <span style={{ marginLeft: 8, fontSize: 10, fontWeight: 700, color: '#27AE60', background: '#F0FFF4', borderRadius: 20, padding: '2px 8px' }}>
+                      Linked household
+                    </span>
+                  )}
+                </div>
                 <div style={{ fontSize: 12, color: '#7F8C8D', marginTop: 3 }}>
                   {h.contact}{h.locality ? ` · ${h.locality}` : ''} · capacity {occ}/{h.capacity}
                 </div>
@@ -348,13 +380,23 @@ function HostsTab({ round, hosts, guests, onChange }) {
   )
 }
 
-function HostEditor({ host, onClose, onSave }) {
+function HostEditor({ host, households = [], onClose, onSave }) {
   const [form, setForm] = useState({
     id: host?.id, name: host?.name || '', contact: host?.contact || '',
     capacity: host?.capacity ?? 1, locality: host?.locality || '', notes: host?.notes || '',
+    household_id: host?.household_id || null,
   })
   const [saving, setSaving] = useState(false)
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }))
+
+  function setName(v) {
+    const match = households.find(hh => hh.householder.toLowerCase() === v.trim().toLowerCase())
+    setForm(f => ({
+      ...f, name: v,
+      household_id: match ? match.id : null,
+      locality: match ? match.locality : f.locality,
+    }))
+  }
 
   async function handle() {
     if (!form.name) return
@@ -371,7 +413,18 @@ function HostEditor({ host, onClose, onSave }) {
           <button onClick={onClose} style={{ background: 'none', border: 'none', fontSize: 20, cursor: 'pointer', color: '#7F8C8D' }}>✕</button>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-          <Field label="Name" value={form.name} onChange={v => set('name', v)} placeholder="e.g. Brown Family" />
+          <div>
+            <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#7F8C8D', marginBottom: 5, textTransform: 'uppercase', letterSpacing: 0.5 }}>Name</label>
+            <input list="tamworth_households" value={form.name} onChange={e => setName(e.target.value)} placeholder="e.g. Brown Family — start typing to match a household"
+              style={{ width: '100%', padding: '10px 12px', borderRadius: 8, border: '1.5px solid #E2E8F0', fontSize: 14, outline: 'none', boxSizing: 'border-box', background: '#fff' }}
+              onFocus={e => e.target.style.borderColor = '#1B4F72'}
+              onBlur={e  => e.target.style.borderColor = '#E2E8F0'}
+            />
+            <datalist id="tamworth_households">{households.map(hh => <option key={hh.id} value={hh.householder} />)}</datalist>
+            {form.household_id && (
+              <div style={{ marginTop: 6, fontSize: 11, fontWeight: 700, color: '#27AE60' }}>✓ Linked to household record</div>
+            )}
+          </div>
           <Field label="Contact (phone/email)" value={form.contact} onChange={v => set('contact', v)} placeholder="0412 345 678" />
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
             <Field label="Capacity (people)" value={form.capacity} onChange={v => set('capacity', v)} type="number" />
