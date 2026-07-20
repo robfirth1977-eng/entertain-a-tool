@@ -480,8 +480,9 @@ function EventDetail({ event, onBack, onSeating }) {
 
   async function addHousehold(hh) {
     setSaving(hh.id)
-    const { data: hhGuests } = await supabase.from('guests').select('*').eq('household_id', hh.id)
-    if (hhGuests?.length) {
+    const { data: allGuests } = await supabase.from('guests').select('*').eq('household_id', hh.id)
+    const hhGuests = (allGuests || []).filter(g => g.active !== false)
+    if (hhGuests.length) {
       await supabase.from('attendance').insert(hhGuests.map(g => ({ event_id: event.id, guest_id: g.id, attended: true })))
       await supabase.from('households').update({ last_entertained: event.event_date, times_hosted: (hh.times_hosted||0)+1 }).eq('id', hh.id)
       await supabase.from('events').update({ total_guests: attendance.length + hhGuests.length }).eq('id', event.id)

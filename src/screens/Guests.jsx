@@ -2,10 +2,11 @@ import { useState, useEffect } from 'react'
 import { supabase } from '../eat'
 
 export default function Guests() {
-  const [guests, setGuests]     = useState([])
-  const [loading, setLoading]   = useState(true)
-  const [search, setSearch]     = useState('')
-  const [editing, setEditing]   = useState(null)
+  const [guests, setGuests]         = useState([])
+  const [loading, setLoading]       = useState(true)
+  const [search, setSearch]         = useState('')
+  const [editing, setEditing]       = useState(null)
+  const [showRemoved, setShowRemoved] = useState(false)
 
   useEffect(() => { fetchGuests() }, [])
 
@@ -38,11 +39,13 @@ export default function Guests() {
     }
   }
 
-  const filtered = guests.filter(g =>
-    !search ||
-    `${g.given_names} ${g.surname}`.toLowerCase().includes(search.toLowerCase()) ||
-    g.locality?.toLowerCase().includes(search.toLowerCase())
-  )
+  const filtered = guests.filter(g => {
+    if (!showRemoved && g.active === false) return false
+    return !search ||
+      `${g.given_names} ${g.surname}`.toLowerCase().includes(search.toLowerCase()) ||
+      g.locality?.toLowerCase().includes(search.toLowerCase())
+  })
+  const removedCount = guests.filter(g => g.active === false).length
 
   const calcAge = (dob) => {
     if (!dob) return null
@@ -78,6 +81,15 @@ export default function Guests() {
           }}
         />
 
+        {removedCount > 0 && (
+          <button onClick={() => setShowRemoved(s => !s)} style={{
+            display: 'block', marginBottom: 12, fontSize: 12, fontWeight: 700, color: '#7F8C8D',
+            background: 'none', border: 'none', cursor: 'pointer', padding: 0,
+          }}>
+            {showRemoved ? 'Hide' : 'Show'} {removedCount} removed {removedCount === 1 ? 'person' : 'people'}
+          </button>
+        )}
+
         {filtered.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '48px 24px', color: '#7F8C8D', fontSize: 14 }}>
             <div style={{ fontSize: 40, marginBottom: 12 }}>🔍</div>
@@ -92,7 +104,7 @@ export default function Guests() {
                 background: '#fff', borderRadius: 12, padding: '13px 16px',
                 marginBottom: 8, display: 'flex', alignItems: 'center',
                 boxShadow: '0 1px 6px rgba(0,0,0,0.05)',
-                cursor: 'pointer', transition: 'transform 0.15s',
+                cursor: 'pointer', transition: 'transform 0.15s', opacity: g.active === false ? 0.6 : 1,
                 animationDelay: `${i * 0.02}s`,
               }}
                 onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-1px)'}
@@ -115,6 +127,11 @@ export default function Guests() {
                   </div>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  {g.active === false && (
+                    <div style={{ fontSize: 10, fontWeight: 700, color: '#E74C3C', background: '#FEF2F2', borderRadius: 20, padding: '3px 8px' }}>
+                      REMOVED
+                    </div>
+                  )}
                   {g.is_householder && (
                     <div style={{ fontSize: 10, fontWeight: 700, color: '#E8A838', background: '#FDF3DC', borderRadius: 20, padding: '3px 8px' }}>
                       HOST

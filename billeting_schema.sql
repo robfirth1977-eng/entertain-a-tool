@@ -57,3 +57,8 @@ create policy "anon full access" on billet_guests for all using (true) with chec
 -- entertaining tracker and billeting -- same person, same record). Safe to
 -- run again if you already ran the block above.
 alter table billet_hosts add column if not exists household_id text references households(id) on delete set null;
+
+-- Soft-delete flag for guests: lets you remove someone from a household's
+-- current membership (moved out, passed away) without losing their history
+-- on past events they actually attended. Safe to run again.
+alter table guests add column if not exists active boolean not null default true;
