@@ -2,6 +2,12 @@ import { useState, useEffect } from 'react'
 import { supabase } from '../eat'
 import TablePlanner from './TablePlanner'
 
+// Rob & Jacqui's own household -- always host, so they're auto-added to
+// every new event's guest list (for name tags / seating). Hardcoded ID
+// rather than matching on householder name, since that field has a
+// stray double-space typo ("Rob  Firth") that would break a name match.
+const HOST_HOUSEHOLD_ID = 'FIRROBX'
+
 export default function PlanEvent({ onBack }) {
   const [view, setView]         = useState('list')
   const [events, setEvents]     = useState([])
@@ -16,9 +22,22 @@ export default function PlanEvent({ onBack }) {
     setLoading(false)
   }
 
+  async function addHostHousehold(event) {
+    const { data: hostGuests } = await supabase.from('guests').select('*').eq('household_id', HOST_HOUSEHOLD_ID)
+    const active = (hostGuests || []).filter(g => g.active !== false)
+    if (active.length === 0) return
+    await supabase.from('attendance').insert(active.map(g => ({ event_id: event.id, guest_id: g.id, attended: true })))
+    const { data: hostHH } = await supabase.from('households').select('times_hosted').eq('id', HOST_HOUSEHOLD_ID).single()
+    await supabase.from('households').update({ last_entertained: event.event_date, times_hosted: (hostHH?.times_hosted || 0) + 1 }).eq('id', HOST_HOUSEHOLD_ID)
+    await supabase.from('events').update({ total_guests: active.length }).eq('id', event.id)
+  }
+
   async function createEvent(name, date, endDate) {
     const { data, error } = await supabase.from('events').insert({ name, event_date: date, end_date: endDate, total_guests: 0 }).select().single()
-    if (!error) { setEvents(ev => [data, ...ev]); setSelected(data); setView('detail') }
+    if (!error) {
+      await addHostHousehold(data)
+      setEvents(ev => [data, ...ev]); setSelected(data); setView('detail')
+    }
   }
 
   if (loading) return <Spinner />
