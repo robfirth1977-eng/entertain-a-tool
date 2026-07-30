@@ -61,54 +61,57 @@ function printSeatingPlan(event, size, seatMap, cats, guests) {
   }).join('')
 
   const svg = `
-    <svg viewBox="0 0 ${VW} ${VH}" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;display:block;margin:0 auto;">
+    <svg viewBox="0 0 ${VW} ${VH}" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:420px;display:block;">
       <rect x="${TABLE.x}" y="${TABLE.y}" width="${TABLE.w}" height="${TABLE.h}" rx="${TABLE.rx}" fill="#1B4F72" stroke="#0F2942" stroke-width="3" />
       <text x="${VW / 2}" y="${TABLE.y + TABLE.h / 2 + 5}" text-anchor="middle" fill="rgba(255,255,255,0.25)" font-size="12" font-weight="600">${event.name}</text>
       ${seatCircles}
     </svg>`
 
-  const row = (g, withSeat) => `<tr><td>${withSeat ? guestToSeat[g.id] : ''}</td><td>${g.given_names} ${g.surname}</td><td>${calcAge(g.dob) ?? ''}</td></tr>`
-  const table = (list, withSeat) => list.length
-    ? `<table><thead><tr><th>${withSeat ? 'Seat' : ''}</th><th>Name</th><th>Age</th></tr></thead><tbody>${list.map(g => row(g, withSeat)).join('')}</tbody></table>`
+  const item = (label, name, age) => `<div class="item">${label ? `<span class="seat">${label}</span>` : ''}${name}${age !== null ? ` <span class="age">(${age})</span>` : ''}</div>`
+  const namelist = (list, withSeat) => list.length
+    ? `<div class="namelist">${list.map(g => item(withSeat ? guestToSeat[g.id] : null, `${g.given_names} ${g.surname}`, calcAge(g.dob))).join('')}</div>`
     : '<div class="empty">None</div>'
+
+  const section = (title, count, list, withSeat) =>
+    `<h2>${title} <span class="count">${count}</span></h2>${namelist(list, withSeat)}`
 
   const fmt = d => new Date(d).toLocaleDateString('en-AU', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
 
   const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${event.name} — Seating Plan</title>
   <style>
-    @page { size: A4 portrait; margin: 14mm; }
+    @page { size: A4 portrait; margin: 12mm; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Plus Jakarta Sans', Arial, sans-serif; color: #0F2942; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     h1 { font-size: 20px; margin-bottom: 2px; }
-    .meta { font-size: 12px; color: #7F8C8D; margin-bottom: 16px; }
-    .cols { display: flex; gap: 24px; margin-top: 18px; }
-    .col { flex: 1; min-width: 0; }
-    h2 { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #7F8C8D; border-bottom: 1px solid #E2E8F0; padding-bottom: 4px; margin-bottom: 6px; }
-    table { width: 100%; border-collapse: collapse; font-size: 12px; }
-    th, td { text-align: left; padding: 3px 6px; border-bottom: 1px solid #F4F7FB; }
-    th { font-size: 9px; text-transform: uppercase; color: #BDC3C7; }
-    .empty { font-size: 11px; color: #BDC3C7; font-style: italic; padding: 4px 6px; }
+    .meta { font-size: 12px; color: #7F8C8D; }
+    .top { display: flex; gap: 20px; align-items: center; margin-top: 12px; }
+    .stats { display: flex; flex-direction: column; gap: 6px; flex: 1; }
+    .stat { display: flex; justify-content: space-between; font-size: 13px; border-bottom: 1px solid #F4F7FB; padding-bottom: 5px; }
+    .stat b { font-size: 15px; }
+    h2 { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #7F8C8D; border-bottom: 1px solid #E2E8F0; padding-bottom: 3px; margin: 14px 0 6px; }
+    .count { color: #BDC3C7; font-weight: 400; text-transform: none; letter-spacing: 0; }
+    .namelist { columns: 3; column-gap: 18px; font-size: 12px; }
+    .item { break-inside: avoid; padding: 2px 0; }
+    .seat { display: inline-block; min-width: 16px; font-weight: 700; color: #E8A838; margin-right: 4px; }
+    .age { color: #BDC3C7; }
+    .empty { font-size: 11px; color: #BDC3C7; font-style: italic; }
     @media print { body { padding: 0; } }
   </style></head><body>
     <h1>${event.name}</h1>
     <div class="meta">Seating Plan — ${fmt(event.event_date)}</div>
-    ${svg}
-    <div class="cols">
-      <div class="col">
-        <h2>At the table (${seated.length})</h2>
-        ${table(seated, true)}
-      </div>
-      <div class="col">
-        <h2>Spill list (${spill.length})</h2>
-        ${table(spill, false)}
-        <div style="height:14px"></div>
-        <h2>Highchairs (${highchair.length})</h2>
-        ${table(highchair, false)}
-        <div style="height:14px"></div>
-        <h2>Unassigned (${unassigned.length})</h2>
-        ${table(unassigned, false)}
+    <div class="top">
+      ${svg}
+      <div class="stats">
+        <div class="stat"><span>At the table</span><b>${seated.length}</b></div>
+        <div class="stat"><span>Unassigned</span><b>${unassigned.length}</b></div>
+        <div class="stat"><span>Spill list</span><b>${spill.length}</b></div>
+        <div class="stat"><span>Highchairs</span><b>${highchair.length}</b></div>
       </div>
     </div>
+    ${section('At the table', seated.length, seated, true)}
+    ${unassigned.length ? section('Unassigned', unassigned.length, unassigned, false) : ''}
+    ${spill.length ? section('Spill list', spill.length, spill, false) : ''}
+    ${highchair.length ? section('Highchairs', highchair.length, highchair, false) : ''}
     <script>setTimeout(() => window.print(), 400)</script>
   </body></html>`
 
