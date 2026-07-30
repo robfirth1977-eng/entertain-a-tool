@@ -29,6 +29,94 @@ function buildSeats(size) {
   return seats
 }
 
+function printSeatingPlan(event, size, seatMap, cats, guests) {
+  const fname = g => g.given_names?.split(' ')[0] || ''
+  const calcAge = (dob) => {
+    if (!dob) return null
+    const b = new Date(dob), today = new Date()
+    let age = today.getFullYear() - b.getFullYear()
+    if (today.getMonth() < b.getMonth() || (today.getMonth() === b.getMonth() && today.getDate() < b.getDate())) age--
+    return age >= 0 ? age : null
+  }
+
+  const seatedIds  = new Set(Object.values(seatMap))
+  const spillIds   = new Set(Object.keys(cats).filter(id => cats[id] === 'spill'))
+  const chairIds   = new Set(Object.keys(cats).filter(id => cats[id] === 'highchair'))
+  const unassigned = guests.filter(g => !seatedIds.has(g.id) && !spillIds.has(g.id) && !chairIds.has(g.id))
+  const spill      = guests.filter(g => spillIds.has(g.id))
+  const highchair  = guests.filter(g => chairIds.has(g.id))
+  const guestToSeat = Object.fromEntries(Object.entries(seatMap).map(([s, g]) => [g, Number(s)]))
+  const seated = guests.filter(g => seatedIds.has(g.id)).sort((a, b) => guestToSeat[a.id] - guestToSeat[b.id])
+
+  const seatCircles = buildSeats(size).map(seat => {
+    const gid = seatMap[seat.n]
+    const guest = gid ? guests.find(g => g.id === gid) : null
+    const age = guest ? calcAge(guest.dob) : null
+    return `
+      <g>
+        <circle cx="${seat.x}" cy="${seat.y}" r="22" fill="${guest ? '#0F2942' : '#F4F7FB'}" stroke="${guest ? '#E8A838' : '#D0D8E4'}" stroke-width="2" />
+        <text x="${seat.x}" y="${seat.y - (guest ? 5 : 0)}" text-anchor="middle" dominant-baseline="middle" fill="${guest ? '#E8A838' : '#95A5A6'}" font-size="${guest ? 9 : 11}" font-weight="700">${guest ? fname(guest) : seat.n}</text>
+        ${guest && age !== null ? `<text x="${seat.x}" y="${seat.y + 6}" text-anchor="middle" dominant-baseline="middle" fill="rgba(232,168,56,0.85)" font-size="7" font-weight="600">${age}</text>` : ''}
+      </g>`
+  }).join('')
+
+  const svg = `
+    <svg viewBox="0 0 ${VW} ${VH}" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;display:block;margin:0 auto;">
+      <rect x="${TABLE.x}" y="${TABLE.y}" width="${TABLE.w}" height="${TABLE.h}" rx="${TABLE.rx}" fill="#1B4F72" stroke="#0F2942" stroke-width="3" />
+      <text x="${VW / 2}" y="${TABLE.y + TABLE.h / 2 + 5}" text-anchor="middle" fill="rgba(255,255,255,0.25)" font-size="12" font-weight="600">${event.name}</text>
+      ${seatCircles}
+    </svg>`
+
+  const row = (g, withSeat) => `<tr><td>${withSeat ? guestToSeat[g.id] : ''}</td><td>${g.given_names} ${g.surname}</td><td>${calcAge(g.dob) ?? ''}</td></tr>`
+  const table = (list, withSeat) => list.length
+    ? `<table><thead><tr><th>${withSeat ? 'Seat' : ''}</th><th>Name</th><th>Age</th></tr></thead><tbody>${list.map(g => row(g, withSeat)).join('')}</tbody></table>`
+    : '<div class="empty">None</div>'
+
+  const fmt = d => new Date(d).toLocaleDateString('en-AU', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
+
+  const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${event.name} — Seating Plan</title>
+  <style>
+    @page { size: A4 portrait; margin: 14mm; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Plus Jakarta Sans', Arial, sans-serif; color: #0F2942; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    h1 { font-size: 20px; margin-bottom: 2px; }
+    .meta { font-size: 12px; color: #7F8C8D; margin-bottom: 16px; }
+    .cols { display: flex; gap: 24px; margin-top: 18px; }
+    .col { flex: 1; min-width: 0; }
+    h2 { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #7F8C8D; border-bottom: 1px solid #E2E8F0; padding-bottom: 4px; margin-bottom: 6px; }
+    table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    th, td { text-align: left; padding: 3px 6px; border-bottom: 1px solid #F4F7FB; }
+    th { font-size: 9px; text-transform: uppercase; color: #BDC3C7; }
+    .empty { font-size: 11px; color: #BDC3C7; font-style: italic; padding: 4px 6px; }
+    @media print { body { padding: 0; } }
+  </style></head><body>
+    <h1>${event.name}</h1>
+    <div class="meta">Seating Plan — ${fmt(event.event_date)}</div>
+    ${svg}
+    <div class="cols">
+      <div class="col">
+        <h2>At the table (${seated.length})</h2>
+        ${table(seated, true)}
+      </div>
+      <div class="col">
+        <h2>Spill list (${spill.length})</h2>
+        ${table(spill, false)}
+        <div style="height:14px"></div>
+        <h2>Highchairs (${highchair.length})</h2>
+        ${table(highchair, false)}
+        <div style="height:14px"></div>
+        <h2>Unassigned (${unassigned.length})</h2>
+        ${table(unassigned, false)}
+      </div>
+    </div>
+    <script>setTimeout(() => window.print(), 400)</script>
+  </body></html>`
+
+  const w = window.open('', '_blank', 'width=900,height=700')
+  w.document.write(html)
+  w.document.close()
+}
+
 export default function TablePlanner({ event, onBack }) {
   const [guests, setGuests]     = useState([])
   const [size, setSize]         = useState(24)
@@ -268,6 +356,12 @@ export default function TablePlanner({ event, onBack }) {
                 }}>{s}</button>
               ))}
             </div>
+            <button onClick={() => printSeatingPlan(event, size, seatMap, cats, guests)} style={{
+              padding:'8px 18px', background:'rgba(255,255,255,0.15)',
+              color:'#fff', border:'none', borderRadius:8, fontSize:12, fontWeight:700, cursor:'pointer',
+            }}>
+              Print
+            </button>
             <button onClick={save} disabled={saving} style={{
               padding:'8px 18px', background: saved ? '#27AE60' : '#E8A838',
               color:'#0F2942', border:'none', borderRadius:8, fontSize:12, fontWeight:700, cursor:'pointer', transition:'background 0.3s',
