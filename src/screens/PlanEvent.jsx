@@ -268,8 +268,8 @@ const TAG_STYLES = {
 
 function StylePicker({ onPick, onClose }) {
   return (
-    <div style={{ position:'fixed', inset:0, background:'rgba(15,41,66,0.65)', zIndex:1000, display:'flex', alignItems:'flex-end', justifyContent:'center' }}>
-      <div style={{ background:'#fff', borderRadius:'20px 20px 0 0', padding:'24px 20px 32px', width:'100%', maxWidth:540, boxShadow:'0 -8px 40px rgba(0,0,0,0.2)' }}>
+    <div style={{ position:'fixed', inset:0, background:'rgba(15,41,66,0.65)', zIndex:1000, display:'flex', alignItems:'center', justifyContent:'center', padding:'20px' }}>
+      <div style={{ background:'#fff', borderRadius:'20px', padding:'24px 20px 28px', width:'100%', maxWidth:540, boxShadow:'0 12px 48px rgba(0,0,0,0.25)', maxHeight:'90vh', overflowY:'auto' }}>
         <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:6 }}>
           <h2 style={{ fontSize:18, fontWeight:800, color:'#0F2942', margin:0 }}>Choose Name Tag Style</h2>
           <button onClick={onClose} style={{ background:'none', border:'none', fontSize:20, cursor:'pointer', color:'#7F8C8D' }}>x</button>
@@ -412,8 +412,8 @@ function MenuEditor({ event, onClose }) {
   }
 
   return (
-    <div style={{ position:'fixed', inset:0, background:'rgba(15,41,66,0.6)', zIndex:1000, display:'flex', alignItems:'flex-end', justifyContent:'center' }}>
-      <div style={{ background:'#fff', borderRadius:'20px 20px 0 0', padding:'24px 20px 32px', width:'100%', maxWidth:540, boxShadow:'0 -8px 40px rgba(0,0,0,0.2)' }}>
+    <div style={{ position:'fixed', inset:0, background:'rgba(15,41,66,0.6)', zIndex:1000, display:'flex', alignItems:'center', justifyContent:'center', padding:'20px' }}>
+      <div style={{ background:'#fff', borderRadius:'20px', padding:'24px 20px 28px', width:'100%', maxWidth:540, boxShadow:'0 12px 48px rgba(0,0,0,0.25)', maxHeight:'90vh', overflowY:'auto' }}>
         <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:20 }}>
           <h2 style={{ fontSize:18, fontWeight:800, color:'#0F2942', margin:0 }}>Event Menu</h2>
           <button onClick={() => onClose(null)} style={{ background:'none', border:'none', fontSize:20, cursor:'pointer', color:'#7F8C8D' }}>x</button>
@@ -755,8 +755,8 @@ function EditEventForm({ event, onClose }) {
   }
 
   return (
-    <div style={{ position:'fixed', inset:0, background:'rgba(15,41,66,0.6)', zIndex:1000, display:'flex', alignItems:'flex-end', justifyContent:'center' }}>
-      <div style={{ background:'#fff', borderRadius:'20px 20px 0 0', padding:'24px 20px 32px', width:'100%', maxWidth:540, boxShadow:'0 -8px 40px rgba(0,0,0,0.2)' }}>
+    <div style={{ position:'fixed', inset:0, background:'rgba(15,41,66,0.6)', zIndex:1000, display:'flex', alignItems:'center', justifyContent:'center', padding:'20px' }}>
+      <div style={{ background:'#fff', borderRadius:'20px', padding:'24px 20px 28px', width:'100%', maxWidth:540, boxShadow:'0 12px 48px rgba(0,0,0,0.25)', maxHeight:'90vh', overflowY:'auto' }}>
         <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:20 }}>
           <h2 style={{ fontSize:18, fontWeight:800, color:'#0F2942', margin:0 }}>Edit Event</h2>
           <button onClick={() => onClose(null)} style={{ background:'none', border:'none', fontSize:20, cursor:'pointer', color:'#7F8C8D' }}>x</button>
