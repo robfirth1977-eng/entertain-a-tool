@@ -119,6 +119,16 @@ export default function Households() {
                         {hh.members}
                       </div>
                     )}
+                    {hh.address && (
+                      <div style={{ fontSize: 12, color: '#95A5A6', lineHeight: 1.5, marginTop: 2 }}>
+                        📍 {hh.address}
+                      </div>
+                    )}
+                    {(hh.phone || hh.email) && (
+                      <div style={{ fontSize: 12, color: '#95A5A6', lineHeight: 1.5, marginTop: 2 }}>
+                        {[hh.phone, hh.email].filter(Boolean).join(' · ')}
+                      </div>
+                    )}
                   </div>
                   <div style={{ marginLeft: 12, flexShrink: 0 }}>
                     <div style={{
@@ -151,6 +161,9 @@ export default function Households() {
 function HouseholdEditor({ household, onClose, onSaved }) {
   const [householder, setHouseholder] = useState(household.householder || '')
   const [locality, setLocality]       = useState(household.locality || '')
+  const [address, setAddress]         = useState(household.address || '')
+  const [phone, setPhone]             = useState(household.phone || '')
+  const [email, setEmail]             = useState(household.email || '')
   const [members, setMembers]         = useState([])
   const [loading, setLoading]         = useState(true)
   const [showAdd, setShowAdd]         = useState(false)
@@ -204,7 +217,10 @@ function HouseholdEditor({ household, onClose, onSaved }) {
 
   async function saveDetails() {
     setSaving(true)
-    await supabase.from('households').update({ householder, locality }).eq('id', household.id)
+    await supabase.from('households').update({
+      householder, locality,
+      address: address || null, phone: phone || null, email: email || null,
+    }).eq('id', household.id)
     setSaving(false)
     onSaved()
   }
@@ -242,6 +258,11 @@ function HouseholdEditor({ household, onClose, onSaved }) {
               onBlur={e  => e.target.style.borderColor = '#E2E8F0'}
             />
             <datalist id="hh_locality_list">{LOCALITIES.map(l => <option key={l} value={l} />)}</datalist>
+          </div>
+          <Field label="Street Address" value={address} onChange={setAddress} placeholder="e.g. 12 Marius St" />
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+            <Field label="Phone" value={phone} onChange={setPhone} placeholder="e.g. 0412 345 678" type="tel" />
+            <Field label="Email" value={email} onChange={setEmail} placeholder="e.g. name@email.com" type="email" />
           </div>
           <button onClick={saveDetails} disabled={!householder || saving} style={{ alignSelf: 'flex-end', padding: '9px 20px', background: householder ? '#0F2942' : '#BDC3C7', color: '#fff', border: 'none', borderRadius: 8, fontSize: 13, fontWeight: 700, cursor: householder ? 'pointer' : 'not-allowed' }}>
             {saving ? 'Saving...' : 'Save Details'}

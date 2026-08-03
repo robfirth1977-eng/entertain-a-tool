@@ -22,7 +22,7 @@ const emptyMember = () => ({ givenNames: '', surname: '', dob: '', gender: '' })
 
 export default function AddHousehold({ onDone }) {
   const [step, setStep]           = useState(1)
-  const [hh, setHh]               = useState({ givenNames: '', surname: '', dob: '', gender: 'M', locality: 'Tamworth' })
+  const [hh, setHh]               = useState({ givenNames: '', surname: '', dob: '', gender: 'M', locality: 'Tamworth', phone: '', email: '', address: '' })
   const [members, setMembers]     = useState([])
   const [newMember, setNewMember] = useState(emptyMember())
   const [saving, setSaving]       = useState(false)
@@ -47,6 +47,9 @@ export default function AddHousehold({ onDone }) {
       householder:  `${hh.givenNames} ${hh.surname}`.trim(),
       members:      memberNames,
       locality:     hh.locality,
+      address:      hh.address || null,
+      phone:        hh.phone || null,
+      email:        hh.email || null,
       size:         allPeople.length,
       times_hosted: 0,
       invite:       true,
@@ -77,7 +80,7 @@ export default function AddHousehold({ onDone }) {
         <p style={{ color: '#7F8C8D', fontSize: 14, marginBottom: 32 }}>
           {`${hh.givenNames} ${hh.surname}`} and family are now in your tracker.
         </p>
-        <button onClick={() => { setStep(1); setHh({ givenNames:'', surname:'', dob:'', gender:'M', locality:'Tamworth' }); setMembers([]); setDone(false) }}
+        <button onClick={() => { setStep(1); setHh({ givenNames:'', surname:'', dob:'', gender:'M', locality:'Tamworth', phone:'', email:'', address:'' }); setMembers([]); setDone(false) }}
           style={btnStyle('#EBF2FA', '#0F2942', 'transparent')}>
           Add Another
         </button>
@@ -133,6 +136,11 @@ export default function AddHousehold({ onDone }) {
                 <div style={{ gridColumn: '1/-1' }}>
                   <ComboField label="Locality"  value={hh.locality}    onChange={v => setHh(h=>({...h,locality:v}))}    options={LOCALITIES} />
                 </div>
+                <div style={{ gridColumn: '1/-1' }}>
+                  <Field label="Street Address" value={hh.address}     onChange={v => setHh(h=>({...h,address:v}))}     placeholder="e.g. 12 Marius St" />
+                </div>
+                <Field label="Phone"  value={hh.phone}  onChange={v => setHh(h=>({...h,phone:v}))}  placeholder="e.g. 0412 345 678" type="tel" />
+                <Field label="Email"  value={hh.email}  onChange={v => setHh(h=>({...h,email:v}))}  placeholder="e.g. name@email.com" type="email" />
               </div>
               {hh.surname && hh.givenNames && (
                 <div style={{ marginTop: 16, padding: '10px 14px', background: '#EBF2FA', borderRadius: 8, borderLeft: '3px solid #1B4F72', fontSize: 13, color: '#0F2942' }}>
@@ -211,6 +219,13 @@ export default function AddHousehold({ onDone }) {
               <div style={{ padding: '12px 16px', background: '#F4F7FB', borderRadius: 8, fontSize: 13, color: '#7F8C8D', lineHeight: 1.6 }}>
                 <strong style={{ color: '#0F2942' }}>Members:</strong><br />
                 {[`${hh.givenNames} ${hh.surname}`, ...members.map(m => `${m.givenNames} ${m.surname || hh.surname}`)].join(', ')}
+                {(hh.address || hh.phone || hh.email) && (
+                  <>
+                    <br /><br />
+                    <strong style={{ color: '#0F2942' }}>Contact:</strong><br />
+                    {[hh.address, hh.phone, hh.email].filter(Boolean).join(' · ')}
+                  </>
+                )}
               </div>
             </Card>
             <div style={{ marginTop: 20, display: 'flex', justifyContent: 'space-between' }}>
